@@ -4,3 +4,7 @@ gunicorn
 django_heroku
 django-livereload-server==0.3.2
 pycodestyle
+graphene_django
+graphene
+django-graphql-auth
+django-graphql-jwt

@@ -8,7 +8,8 @@ from enroll.utils import time_plus_minutes
 
 
 class User(AbstractUser):
-    user_type = models.PositiveSmallIntegerField(choices=UserType().get_choices())
+    user_type = models.PositiveSmallIntegerField(choices=UserType.get_choices(),
+                                                 default=UserType.get_by_name('new_user'))
 
     def __str__(self):
         return super().__str__() + ' (' + (UserType.get_by_key(self.user_type)) + ')'

@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'livereload',
+    'graphene_django',
+    'graphql_auth',
+    'django_filters',
 
     'enroll',
     'frontend',
@@ -54,6 +57,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
+]
+
+AUTHENTICATION_BACKENDS = [
+    "graphql_auth.backends.GraphQLAuthBackend",
 ]
 
 ROOT_URLCONF = 'enrollXchange.urls'
@@ -73,6 +80,10 @@ TEMPLATES = [
         },
     },
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'enroll.schema.schema'
+}
 
 WSGI_APPLICATION = 'enrollXchange.wsgi.application'
 
