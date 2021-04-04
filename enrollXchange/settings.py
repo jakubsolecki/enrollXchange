@@ -25,6 +25,17 @@ SECRET_KEY = os.getenv('SECRET_KEY', '+*cxgh*p=3m7sx)c#jh8at06ad4@gcsb5=e7yfflq6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'false').strip().lower() == 'true'
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'local')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if (not DEBUG) and ENVIRONMENT == 'prod':
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = 'apikey'  # this is exactly the value 'apikey'
+    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
 ALLOWED_HOSTS = ['*', ]
 
@@ -43,6 +54,7 @@ INSTALLED_APPS = [
     'graphene_django',
     'graphql_auth',
     'django_filters',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
 
     'enroll',
     'frontend',
@@ -83,6 +95,11 @@ TEMPLATES = [
 
 GRAPHENE = {
     'SCHEMA': 'enroll.schema.schema'
+}
+
+GRAPHQL_JWT = {
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
 }
 
 WSGI_APPLICATION = 'enrollXchange.wsgi.application'
