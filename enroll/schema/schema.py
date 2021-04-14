@@ -27,7 +27,7 @@ class Query(MeQuery, graphene.ObjectType):
         if info.context.user.is_authenticated:
             return Offer.objects.all()
         return Offer.objects.none()
-    
+
     def resolve_class_times(self, info, **kwargs):
         if info.context.user.is_authenticated:
             return ClassTime.objects.all()
