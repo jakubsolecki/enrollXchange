@@ -33,6 +33,7 @@ class Query(MeQuery, graphene.ObjectType):
             return ClassTime.objects.all()
         return ClassTime.objects.none()
 
+
 class CreateOffer(graphene.Mutation):
     offer = graphene.Field(OfferType)
 
@@ -53,7 +54,7 @@ class CreateOffer(graphene.Mutation):
             offer = Offer.objects.get(enrollment=enrollment)
         except Offer.DoesNotExist as e:
             offer = None
-        
+
         if offer is not None:
             offer.exchange_to.add(class_time)
         else:
@@ -63,12 +64,13 @@ class CreateOffer(graphene.Mutation):
                 active=True
             )
             offer.exchange_to.add(class_time)
-        
+
         return CreateOffer(offer=offer)
 
 
 class MyMutations(graphene.ObjectType):
     pass
     create_offer = CreateOffer.Field()
+
 
 schema = graphene.Schema(query=Query, mutation=MyMutations)
