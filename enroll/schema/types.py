@@ -45,7 +45,9 @@ class ClassTimeType(DjangoObjectType):
             "frequency",
             "start",
             "lecturer__first_name",
-            "lecturer__last_name"
+            "lecturer__last_name",
+            "course__code",
+            "course__full_name"
         ]
 
     @staticmethod
