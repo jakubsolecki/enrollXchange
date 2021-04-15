@@ -1,13 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import FilterElement from "./FilterElement";
 
 const Filters = () => {
     return (
         <>
-            <FilterElement name={"filter1"}/>
-            <FilterElement name={"filter1"}/>
-            <FilterElement name={"filter1"}/>
-            <FilterElement name={"filter1"}/>
+            <FilterElement name={"Kurs"} d_key={"course"}/>
+            <FilterElement name={"Prowadzący"} d_key={"lecturer"}/>
+            <FilterElement name={"Dzień"} d_key={"day"}/>
         </>
     )
 };

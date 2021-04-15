@@ -1,4 +1,4 @@
-const weekDays = {
+export const weekDays = {
     "MONDAY": "Poniedziałek",
     "TUESDAY": "Wtorek",
     "WEDNESDAY": "Środa",

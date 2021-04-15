@@ -1,30 +1,38 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Modal from 'react-bootstrap/Modal'
 import {Button, Form, Col} from "react-bootstrap";
-
-const weekdays = [
-    "Niedziela",
-    "Poniedziałek",
-    "Wtorek",
-    "Środa",
-    "Czwartek",
-    "Piątek",
-    "Sobota",
-]
-
-function getDateString(date) {
-    let d = new Date(date);
-    return d.getHours() + ":" + d.getMinutes()
-}
-
-function getDay(date) {
-    let d = new Date(date);
-    return weekdays[d.getDay()]
-}
-
+import apollo_client from "../../util/apollo";
+import schedulesQuery from "../../queries/shedules.graphql";
+import {parseSchedule, parseScheduleByClass} from "../../util/courses/parseSchedule";
+import offerMutation from '../../mutations/offer.graphql';
 
 const AddOfferForm = (props) => {
+    const [classes, setClasses] = useState([]);
+    const [pickedClass, setPickedClass] = useState("");
+    const [comment, setComment] = useState("");
+    useEffect(() => {
+        apollo_client.query({query: schedulesQuery}).then(res => setClasses(parseScheduleByClass(res, props.event.extendedProps.fullName)))
+    }, [])
+
+    const handlePick = (event) => {
+        setPickedClass(event.target.value);
+    }
+
+    const handleComment = (event) => {
+        setComment(event.target.value)
+    }
+
+    const handleSubmit = () => {
+        if (pickedClass !== ""){
+            apollo_client.mutate({mutation: offerMutation, variables: {
+                "classTimeId": pickedClass, "comment": comment, "enrollmentId": props.event.extendedProps.enrollmentId,
+            }}).then(res => console.log(res)).then(() => props.onHide()).then(() => location.reload())
+        }
+    }
+
+
+    const list = classes.map(c => <option key={c.classTimeId} value={c.classTimeId}>{c.day} {c.start}</option>)
     return (
         <Modal show={props.show} onHide={props.onHide}>
             <Modal.Header closeButton>
@@ -33,45 +41,28 @@ const AddOfferForm = (props) => {
             <Modal.Body>
                 <Col>
                     <b>Twój termin:</b>
-                    <div>{getDay(props.event.start)} </div>
-                    <div>{getDateString(props.event.start)} - {getDateString(props.event.end)}</div>
                     <div>{props.event.title}</div>
                 </Col>
                 <hr/>
                 <Col>
-                    <b>Zamień swój termin:</b>
                     <Form>
                         <Form.Group controlId="AddOfferForm.daySelect">
-                            <Form.Label><span style={{color: 'black'}}>Preferowany dzień zajęć</span></Form.Label>
-                            <Form.Control as='select' custom>
-                                <option>dowolny</option>
-                                <option>Piątek</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="AddOfferForm.timeSelect">
-                            <Form.Label><span style={{color: 'black'}}>Preferowany czas zajęć</span></Form.Label>
-                            <Form.Control as='select' custom>
-                                <option>dowolny</option>
-                                <option>8:00 - 9:30</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="AddOfferForm.teacherSelect">
-                            <Form.Label><span style={{color: 'black'}}>Preferowany prowadzący</span></Form.Label>
-                            <Form.Control as='select' custom>
-                                <option>dowolny</option>
-                                <option>Piotr Faliszewski</option>
+                            <Form.Label><span style={{color: 'black'}}>Wybierz termin</span></Form.Label>
+                            <Form.Control as='select' custom onChange={handlePick}>
+                                <option value="">Wybierz termin</option>
+                                {list}
                             </Form.Control>
                         </Form.Group>
                         <Form.Group controlId="AddOfferForm.commentTextArea">
                             <Form.Label><span style={{color: 'black'}}>Komentarz</span></Form.Label>
-                            <Form.Control as="textarea" rows={2} />
+                            <Form.Control as="textarea" rows={2} onChange={handleComment} />
                         </Form.Group>
                     </Form>
                 </Col>
 
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger">Złóż ofertę zamiany</Button>
+                <Button variant="danger" type="submit" onClick={handleSubmit}>Złóż ofertę zamiany</Button>
             </Modal.Footer>
         </Modal>
     )

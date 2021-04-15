@@ -1,0 +1,15 @@
+query lecturers {
+  offers(active: true) {
+    edges {
+      node {
+        enrollment {
+          classTime {
+            lecturer {
+              fullName
+            }
+          }
+        }
+      }
+    }
+  }
+}

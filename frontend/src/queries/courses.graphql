@@ -1,0 +1,11 @@
+query courses {
+	courses {
+	  edges {
+	    node {
+	      id
+        code
+        fullName
+	    }
+	  }
+	}
+}

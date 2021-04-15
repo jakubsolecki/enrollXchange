@@ -1,0 +1,15 @@
+mutation offerMutation(
+  $classTimeId: String,
+  $comment: String,
+	$enrollmentId: String,
+) {
+  createOffer(
+    classTimeId: $classTimeId,
+  	comment: $comment,
+    enrollmentId: $enrollmentId
+  ) {
+  	offer {
+      id
+    }
+  }
+}

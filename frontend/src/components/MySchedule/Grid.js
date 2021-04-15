@@ -1,20 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import {classes} from './MockData'
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AddOfferForm from "./AddOfferForm";
-
+import apollo_client from "../../util/apollo";
+import schedulesQuery from "../../queries/shedules.graphql"
+import {parseSchedule} from '../../util/courses/parseSchedule'
+import {UserContext} from "../../context/User";
 
 const GridFullcalendar = () => {
     const [events, setEvents] = useState([]);
     const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
     const [highlightedEvent, setHighLightedEvent] = useState(null);
+    const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
-        setEvents(classes);
-    }, [])
+        apollo_client.query({query: schedulesQuery}).then(res => setEvents(parseSchedule(res, user)))
+    }, [user])
 
     const handleEventClick= (props) => {
         setHighLightedEvent(props.event)
@@ -52,7 +54,7 @@ const GridFullcalendar = () => {
                     onHide={() => setIsInfoWindowOpen(false)}
                     event={highlightedEvent}
                 />
-            : null}
+                : null}
         </div>
     )
 }
