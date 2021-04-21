@@ -3,6 +3,8 @@ import { Col, Container, Row} from "react-bootstrap";
 import '../../styles/home.css';
 import {UserContext} from "../../context/User";
 import {Link} from "react-router-dom";
+import StudentHome from "./StudentHome";
+import LecturerHome from "./LecturerHome";
 
 const Home = () => {
     const { user, _setUser } = useContext(UserContext);
@@ -18,17 +20,10 @@ const Home = () => {
                                     <a className="btn btn-outline-light" style={{width: '100%'}}
                                     href="/accounts/login">Zaloguj</a>)
                                 : (
-                                    <div className="text-center">
-                                        <h2 style={{color: "white"}}>Witaj {user.username}!</h2>
-                                        <Link to="/my-schedule">
-                                            <button className="btn btn-outline-light mt-3" style={{width: '100%'}}>Mój podział</button>
-                                        </Link>
-                                        <Link to="/market">
-                                            <button className="btn btn-outline-light mt-5" style={{width: '100%'}}>Giełda</button>
-                                        </Link>
-                                        <a className="btn btn-outline-light mt-5" style={{width: '100%'}}
-                                           href="/accounts/logout">Wyloguj</a>
-                                    </div>
+                                    user.userType === "A_3" ?
+                                        <LecturerHome user={user}/>
+                                    :
+                                        <StudentHome user={user}/>
                                 )
                             }
                         </div>
