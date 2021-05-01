@@ -853,314 +853,281 @@ ALTER TABLE ONLY public.graphql_auth_userstatus ALTER COLUMN id SET DEFAULT next
 -- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.auth_group (id, name) FROM stdin;
-\.
 
 
 --
 -- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
-\.
 
 
 --
 -- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
-1	Can add log entry	1	add_logentry
-2	Can change log entry	1	change_logentry
-3	Can delete log entry	1	delete_logentry
-4	Can view log entry	1	view_logentry
-5	Can add permission	2	add_permission
-6	Can change permission	2	change_permission
-7	Can delete permission	2	delete_permission
-8	Can view permission	2	view_permission
-9	Can add group	3	add_group
-10	Can change group	3	change_group
-11	Can delete group	3	delete_group
-12	Can view group	3	view_group
-13	Can add content type	4	add_contenttype
-14	Can change content type	4	change_contenttype
-15	Can delete content type	4	delete_contenttype
-16	Can view content type	4	view_contenttype
-17	Can add session	5	add_session
-18	Can change session	5	change_session
-19	Can delete session	5	delete_session
-20	Can view session	5	view_session
-21	Can add user status	6	add_userstatus
-22	Can change user status	6	change_userstatus
-23	Can delete user status	6	delete_userstatus
-24	Can view user status	6	view_userstatus
-25	Can add user	7	add_user
-26	Can change user	7	change_user
-27	Can delete user	7	delete_user
-28	Can view user	7	view_user
-29	Can add class time	8	add_classtime
-30	Can change class time	8	change_classtime
-31	Can delete class time	8	delete_classtime
-32	Can view class time	8	view_classtime
-33	Can add course	9	add_course
-34	Can change course	9	change_course
-35	Can delete course	9	delete_course
-36	Can view course	9	view_course
-37	Can add enrollment	10	add_enrollment
-38	Can change enrollment	10	change_enrollment
-39	Can delete enrollment	10	delete_enrollment
-40	Can view enrollment	10	view_enrollment
-41	Can add offer	11	add_offer
-42	Can change offer	11	change_offer
-43	Can delete offer	11	delete_offer
-44	Can view offer	11	view_offer
-45	Can add lecturer	12	add_lecturer
-46	Can change lecturer	12	change_lecturer
-47	Can delete lecturer	12	delete_lecturer
-48	Can view lecturer	12	view_lecturer
-\.
+INSERT INTO public.auth_permission VALUES (1, 'Can add log entry', 1, 'add_logentry');
+INSERT INTO public.auth_permission VALUES (2, 'Can change log entry', 1, 'change_logentry');
+INSERT INTO public.auth_permission VALUES (3, 'Can delete log entry', 1, 'delete_logentry');
+INSERT INTO public.auth_permission VALUES (4, 'Can view log entry', 1, 'view_logentry');
+INSERT INTO public.auth_permission VALUES (5, 'Can add permission', 2, 'add_permission');
+INSERT INTO public.auth_permission VALUES (6, 'Can change permission', 2, 'change_permission');
+INSERT INTO public.auth_permission VALUES (7, 'Can delete permission', 2, 'delete_permission');
+INSERT INTO public.auth_permission VALUES (8, 'Can view permission', 2, 'view_permission');
+INSERT INTO public.auth_permission VALUES (9, 'Can add group', 3, 'add_group');
+INSERT INTO public.auth_permission VALUES (10, 'Can change group', 3, 'change_group');
+INSERT INTO public.auth_permission VALUES (11, 'Can delete group', 3, 'delete_group');
+INSERT INTO public.auth_permission VALUES (12, 'Can view group', 3, 'view_group');
+INSERT INTO public.auth_permission VALUES (13, 'Can add content type', 4, 'add_contenttype');
+INSERT INTO public.auth_permission VALUES (14, 'Can change content type', 4, 'change_contenttype');
+INSERT INTO public.auth_permission VALUES (15, 'Can delete content type', 4, 'delete_contenttype');
+INSERT INTO public.auth_permission VALUES (16, 'Can view content type', 4, 'view_contenttype');
+INSERT INTO public.auth_permission VALUES (17, 'Can add session', 5, 'add_session');
+INSERT INTO public.auth_permission VALUES (18, 'Can change session', 5, 'change_session');
+INSERT INTO public.auth_permission VALUES (19, 'Can delete session', 5, 'delete_session');
+INSERT INTO public.auth_permission VALUES (20, 'Can view session', 5, 'view_session');
+INSERT INTO public.auth_permission VALUES (21, 'Can add user status', 6, 'add_userstatus');
+INSERT INTO public.auth_permission VALUES (22, 'Can change user status', 6, 'change_userstatus');
+INSERT INTO public.auth_permission VALUES (23, 'Can delete user status', 6, 'delete_userstatus');
+INSERT INTO public.auth_permission VALUES (24, 'Can view user status', 6, 'view_userstatus');
+INSERT INTO public.auth_permission VALUES (25, 'Can add user', 7, 'add_user');
+INSERT INTO public.auth_permission VALUES (26, 'Can change user', 7, 'change_user');
+INSERT INTO public.auth_permission VALUES (27, 'Can delete user', 7, 'delete_user');
+INSERT INTO public.auth_permission VALUES (28, 'Can view user', 7, 'view_user');
+INSERT INTO public.auth_permission VALUES (29, 'Can add class time', 8, 'add_classtime');
+INSERT INTO public.auth_permission VALUES (30, 'Can change class time', 8, 'change_classtime');
+INSERT INTO public.auth_permission VALUES (31, 'Can delete class time', 8, 'delete_classtime');
+INSERT INTO public.auth_permission VALUES (32, 'Can view class time', 8, 'view_classtime');
+INSERT INTO public.auth_permission VALUES (33, 'Can add course', 9, 'add_course');
+INSERT INTO public.auth_permission VALUES (34, 'Can change course', 9, 'change_course');
+INSERT INTO public.auth_permission VALUES (35, 'Can delete course', 9, 'delete_course');
+INSERT INTO public.auth_permission VALUES (36, 'Can view course', 9, 'view_course');
+INSERT INTO public.auth_permission VALUES (37, 'Can add enrollment', 10, 'add_enrollment');
+INSERT INTO public.auth_permission VALUES (38, 'Can change enrollment', 10, 'change_enrollment');
+INSERT INTO public.auth_permission VALUES (39, 'Can delete enrollment', 10, 'delete_enrollment');
+INSERT INTO public.auth_permission VALUES (40, 'Can view enrollment', 10, 'view_enrollment');
+INSERT INTO public.auth_permission VALUES (41, 'Can add offer', 11, 'add_offer');
+INSERT INTO public.auth_permission VALUES (42, 'Can change offer', 11, 'change_offer');
+INSERT INTO public.auth_permission VALUES (43, 'Can delete offer', 11, 'delete_offer');
+INSERT INTO public.auth_permission VALUES (44, 'Can view offer', 11, 'view_offer');
+INSERT INTO public.auth_permission VALUES (45, 'Can add lecturer', 12, 'add_lecturer');
+INSERT INTO public.auth_permission VALUES (46, 'Can change lecturer', 12, 'change_lecturer');
+INSERT INTO public.auth_permission VALUES (47, 'Can delete lecturer', 12, 'delete_lecturer');
+INSERT INTO public.auth_permission VALUES (48, 'Can view lecturer', 12, 'view_lecturer');
 
 
 --
 -- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
-1	2021-04-12 20:29:49.501054+00	1	Algorytmy dla Problemów Trudnych Obliczeniowo	1	[{"added": {}}]	9	1
-2	2021-04-12 20:32:16.566318+00	2	faliszew (teacher)	1	[{"added": {}}]	7	1
-3	2021-04-12 20:32:21.826525+00	1	Piotr Faliszewski	1	[{"added": {}}]	12	1
-4	2021-04-12 20:32:27.234888+00	1	Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 06:00	1	[{"added": {}}]	8	1
-5	2021-04-12 20:35:06.593399+00	3	denkov (student)	1	[{"added": {}}]	7	1
-6	2021-04-12 20:35:16.180617+00	1	denkov (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 06:00	1	[{"added": {}}]	10	1
-7	2021-04-12 20:35:47.218575+00	1	Offer object (1)	1	[{"added": {}}]	11	1
-8	2021-04-13 14:19:26.390916+00	3	Stanisław (student)	2	[{"changed": {"fields": ["Password", "Username"]}}]	7	1
-9	2021-04-13 14:19:58.571159+00	2	Piotr (teacher)	2	[{"changed": {"fields": ["Password", "Username"]}}]	7	1
-10	2021-04-13 14:20:37.286578+00	4	Kacper (student)	1	[{"added": {}}]	7	1
-11	2021-04-13 14:20:46.042485+00	3	Stanisław (student)	2	[]	7	1
-12	2021-04-13 14:20:49.721154+00	2	Piotr (teacher)	2	[]	7	1
-13	2021-04-13 14:21:26.17752+00	5	Jan (student)	1	[{"added": {}}]	7	1
-14	2021-04-13 14:22:40.208484+00	6	Marcin (teacher)	1	[{"added": {}}]	7	1
-15	2021-04-13 14:23:14.637742+00	1	Algorytmy dla Problemów Trudnych Obliczeniowo	2	[]	9	1
-16	2021-04-13 14:23:35.941003+00	2	Algorytmy i Struktury Danych	1	[{"added": {}}]	9	1
-17	2021-04-13 14:24:26.815135+00	3	Kompetencje Interpersonalne	1	[{"added": {}}]	9	1
-18	2021-04-13 14:25:11.978811+00	1	Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00	2	[{"changed": {"fields": ["Frequency", "Start"]}}]	8	1
-19	2021-04-13 14:25:45.926566+00	2	Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00	1	[{"added": {}}]	8	1
-20	2021-04-13 14:26:05.032128+00	2	Marcin Kurdziel	1	[{"added": {}}]	12	1
-21	2021-04-13 14:26:41.90149+00	2	Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00	2	[]	8	1
-22	2021-04-13 14:27:36.37236+00	3	Algorytmy dla Problemów Trudnych Obliczeniowo | TUESDAY 08:00	1	[{"added": {}}]	8	1
-23	2021-04-13 14:28:11.661622+00	4	Algorytmy dla Problemów Trudnych Obliczeniowo | TUESDAY 09:30	1	[{"added": {}}]	8	1
-24	2021-04-13 14:30:48.341026+00	5	Kompetencje Interpersonalne | WEDNESDAY 08:00	1	[{"added": {}}]	8	1
-25	2021-04-13 14:31:15.883109+00	6	Kompetencje Interpersonalne | WEDNESDAY 08:00	1	[{"added": {}}]	8	1
-26	2021-04-13 14:32:06.975465+00	6	Kompetencje Interpersonalne | WEDNESDAY 08:00	2	[]	8	1
-27	2021-04-13 14:32:37.624588+00	7	Algorytmy i Struktury Danych | WEDNESDAY 08:00	1	[{"added": {}}]	8	1
-28	2021-04-13 14:32:57.871975+00	8	Algorytmy i Struktury Danych | THURSDAY 09:35	1	[{"added": {}}]	8	1
-29	2021-04-13 14:33:01.996659+00	8	Algorytmy i Struktury Danych | THURSDAY 09:35	2	[]	8	1
-30	2021-04-13 14:33:05.079982+00	7	Algorytmy i Struktury Danych | WEDNESDAY 08:00	2	[]	8	1
-31	2021-04-13 14:33:50.668618+00	2	Kacper (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00	1	[{"added": {}}]	10	1
-32	2021-04-13 14:34:04.703582+00	2	Kacper (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00	2	[]	10	1
-33	2021-04-13 14:34:12.867304+00	1	Stanisław (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00	2	[]	10	1
-34	2021-04-13 14:34:24.135424+00	3	Jan (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | TUESDAY 08:00	1	[{"added": {}}]	10	1
-35	2021-04-13 14:34:34.781973+00	4	Kacper (student) - Kompetencje Interpersonalne | WEDNESDAY 08:00	1	[{"added": {}}]	10	1
-36	2021-04-13 14:34:41.697378+00	5	Stanisław (student) - Kompetencje Interpersonalne | WEDNESDAY 08:00	1	[{"added": {}}]	10	1
-37	2021-04-13 14:34:51.023523+00	6	Jan (student) - Kompetencje Interpersonalne | WEDNESDAY 08:00	1	[{"added": {}}]	10	1
-38	2021-04-13 14:35:01.028847+00	7	Kacper (student) - Algorytmy i Struktury Danych | WEDNESDAY 08:00	1	[{"added": {}}]	10	1
-39	2021-04-13 14:35:10.134736+00	8	Stanisław (student) - Algorytmy i Struktury Danych | THURSDAY 09:35	1	[{"added": {}}]	10	1
-40	2021-04-13 14:35:17.76081+00	9	Jan (student) - Algorytmy i Struktury Danych | THURSDAY 09:35	1	[{"added": {}}]	10	1
-41	2021-04-13 14:49:39.012164+00	1	Offer object (1)	2	[{"changed": {"fields": ["Exchange to"]}}]	11	1
-42	2021-04-13 14:50:59.126195+00	2	Offer object (2)	1	[{"added": {}}]	11	1
-43	2021-04-13 14:51:58.222367+00	3	Offer object (3)	1	[{"added": {}}]	11	1
-44	2021-04-13 14:52:35.373087+00	4	Offer object (4)	1	[{"added": {}}]	11	1
-45	2021-04-13 14:53:22.827565+00	4	Offer object (4)	2	[{"changed": {"fields": ["Exchange to"]}}]	11	1
-46	2021-04-13 14:54:33.739498+00	5	Offer object (5)	1	[{"added": {}}]	11	1
-47	2021-04-13 15:59:06.714714+00	6	Marcin (teacher)	2	[{"changed": {"fields": ["Password"]}}]	7	1
-48	2021-04-13 15:59:31.505564+00	5	Jan (student)	2	[{"changed": {"fields": ["Password"]}}]	7	1
-49	2021-04-13 16:00:05.132355+00	4	Kacper (student)	2	[{"changed": {"fields": ["Password"]}}]	7	1
-50	2021-04-13 16:00:36.408366+00	3	Stanisław (student)	2	[{"changed": {"fields": ["Password"]}}]	7	1
-51	2021-04-13 16:01:04.947947+00	2	Piotr (teacher)	2	[{"changed": {"fields": ["Password"]}}]	7	1
-\.
+INSERT INTO public.django_admin_log VALUES (1, '2021-04-12 20:29:49.501054+00', '1', 'Algorytmy dla Problemów Trudnych Obliczeniowo', 1, '[{"added": {}}]', 9, 1);
+INSERT INTO public.django_admin_log VALUES (2, '2021-04-12 20:32:16.566318+00', '2', 'faliszew (teacher)', 1, '[{"added": {}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (3, '2021-04-12 20:32:21.826525+00', '1', 'Piotr Faliszewski', 1, '[{"added": {}}]', 12, 1);
+INSERT INTO public.django_admin_log VALUES (4, '2021-04-12 20:32:27.234888+00', '1', 'Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 06:00', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (5, '2021-04-12 20:35:06.593399+00', '3', 'denkov (student)', 1, '[{"added": {}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (6, '2021-04-12 20:35:16.180617+00', '1', 'denkov (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 06:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (7, '2021-04-12 20:35:47.218575+00', '1', 'Offer object (1)', 1, '[{"added": {}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (8, '2021-04-13 14:19:26.390916+00', '3', 'Stanisław (student)', 2, '[{"changed": {"fields": ["Password", "Username"]}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (9, '2021-04-13 14:19:58.571159+00', '2', 'Piotr (teacher)', 2, '[{"changed": {"fields": ["Password", "Username"]}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (10, '2021-04-13 14:20:37.286578+00', '4', 'Kacper (student)', 1, '[{"added": {}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (11, '2021-04-13 14:20:46.042485+00', '3', 'Stanisław (student)', 2, '[]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (12, '2021-04-13 14:20:49.721154+00', '2', 'Piotr (teacher)', 2, '[]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (13, '2021-04-13 14:21:26.17752+00', '5', 'Jan (student)', 1, '[{"added": {}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (14, '2021-04-13 14:22:40.208484+00', '6', 'Marcin (teacher)', 1, '[{"added": {}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (15, '2021-04-13 14:23:14.637742+00', '1', 'Algorytmy dla Problemów Trudnych Obliczeniowo', 2, '[]', 9, 1);
+INSERT INTO public.django_admin_log VALUES (16, '2021-04-13 14:23:35.941003+00', '2', 'Algorytmy i Struktury Danych', 1, '[{"added": {}}]', 9, 1);
+INSERT INTO public.django_admin_log VALUES (17, '2021-04-13 14:24:26.815135+00', '3', 'Kompetencje Interpersonalne', 1, '[{"added": {}}]', 9, 1);
+INSERT INTO public.django_admin_log VALUES (18, '2021-04-13 14:25:11.978811+00', '1', 'Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00', 2, '[{"changed": {"fields": ["Frequency", "Start"]}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (19, '2021-04-13 14:25:45.926566+00', '2', 'Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (20, '2021-04-13 14:26:05.032128+00', '2', 'Marcin Kurdziel', 1, '[{"added": {}}]', 12, 1);
+INSERT INTO public.django_admin_log VALUES (21, '2021-04-13 14:26:41.90149+00', '2', 'Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00', 2, '[]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (22, '2021-04-13 14:27:36.37236+00', '3', 'Algorytmy dla Problemów Trudnych Obliczeniowo | TUESDAY 08:00', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (23, '2021-04-13 14:28:11.661622+00', '4', 'Algorytmy dla Problemów Trudnych Obliczeniowo | TUESDAY 09:30', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (24, '2021-04-13 14:30:48.341026+00', '5', 'Kompetencje Interpersonalne | WEDNESDAY 08:00', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (25, '2021-04-13 14:31:15.883109+00', '6', 'Kompetencje Interpersonalne | WEDNESDAY 08:00', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (26, '2021-04-13 14:32:06.975465+00', '6', 'Kompetencje Interpersonalne | WEDNESDAY 08:00', 2, '[]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (27, '2021-04-13 14:32:37.624588+00', '7', 'Algorytmy i Struktury Danych | WEDNESDAY 08:00', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (28, '2021-04-13 14:32:57.871975+00', '8', 'Algorytmy i Struktury Danych | THURSDAY 09:35', 1, '[{"added": {}}]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (29, '2021-04-13 14:33:01.996659+00', '8', 'Algorytmy i Struktury Danych | THURSDAY 09:35', 2, '[]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (30, '2021-04-13 14:33:05.079982+00', '7', 'Algorytmy i Struktury Danych | WEDNESDAY 08:00', 2, '[]', 8, 1);
+INSERT INTO public.django_admin_log VALUES (31, '2021-04-13 14:33:50.668618+00', '2', 'Kacper (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (32, '2021-04-13 14:34:04.703582+00', '2', 'Kacper (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00', 2, '[]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (33, '2021-04-13 14:34:12.867304+00', '1', 'Stanisław (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | MONDAY 08:00', 2, '[]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (34, '2021-04-13 14:34:24.135424+00', '3', 'Jan (student) - Algorytmy dla Problemów Trudnych Obliczeniowo | TUESDAY 08:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (35, '2021-04-13 14:34:34.781973+00', '4', 'Kacper (student) - Kompetencje Interpersonalne | WEDNESDAY 08:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (36, '2021-04-13 14:34:41.697378+00', '5', 'Stanisław (student) - Kompetencje Interpersonalne | WEDNESDAY 08:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (37, '2021-04-13 14:34:51.023523+00', '6', 'Jan (student) - Kompetencje Interpersonalne | WEDNESDAY 08:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (38, '2021-04-13 14:35:01.028847+00', '7', 'Kacper (student) - Algorytmy i Struktury Danych | WEDNESDAY 08:00', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (39, '2021-04-13 14:35:10.134736+00', '8', 'Stanisław (student) - Algorytmy i Struktury Danych | THURSDAY 09:35', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (40, '2021-04-13 14:35:17.76081+00', '9', 'Jan (student) - Algorytmy i Struktury Danych | THURSDAY 09:35', 1, '[{"added": {}}]', 10, 1);
+INSERT INTO public.django_admin_log VALUES (41, '2021-04-13 14:49:39.012164+00', '1', 'Offer object (1)', 2, '[{"changed": {"fields": ["Exchange to"]}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (42, '2021-04-13 14:50:59.126195+00', '2', 'Offer object (2)', 1, '[{"added": {}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (43, '2021-04-13 14:51:58.222367+00', '3', 'Offer object (3)', 1, '[{"added": {}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (44, '2021-04-13 14:52:35.373087+00', '4', 'Offer object (4)', 1, '[{"added": {}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (45, '2021-04-13 14:53:22.827565+00', '4', 'Offer object (4)', 2, '[{"changed": {"fields": ["Exchange to"]}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (46, '2021-04-13 14:54:33.739498+00', '5', 'Offer object (5)', 1, '[{"added": {}}]', 11, 1);
+INSERT INTO public.django_admin_log VALUES (47, '2021-04-13 15:59:06.714714+00', '6', 'Marcin (teacher)', 2, '[{"changed": {"fields": ["Password"]}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (48, '2021-04-13 15:59:31.505564+00', '5', 'Jan (student)', 2, '[{"changed": {"fields": ["Password"]}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (49, '2021-04-13 16:00:05.132355+00', '4', 'Kacper (student)', 2, '[{"changed": {"fields": ["Password"]}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (50, '2021-04-13 16:00:36.408366+00', '3', 'Stanisław (student)', 2, '[{"changed": {"fields": ["Password"]}}]', 7, 1);
+INSERT INTO public.django_admin_log VALUES (51, '2021-04-13 16:01:04.947947+00', '2', 'Piotr (teacher)', 2, '[{"changed": {"fields": ["Password"]}}]', 7, 1);
 
 
 --
 -- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.django_content_type (id, app_label, model) FROM stdin;
-1	admin	logentry
-2	auth	permission
-3	auth	group
-4	contenttypes	contenttype
-5	sessions	session
-6	graphql_auth	userstatus
-7	enroll	user
-8	enroll	classtime
-9	enroll	course
-10	enroll	enrollment
-11	enroll	offer
-12	enroll	lecturer
-\.
+INSERT INTO public.django_content_type VALUES (1, 'admin', 'logentry');
+INSERT INTO public.django_content_type VALUES (2, 'auth', 'permission');
+INSERT INTO public.django_content_type VALUES (3, 'auth', 'group');
+INSERT INTO public.django_content_type VALUES (4, 'contenttypes', 'contenttype');
+INSERT INTO public.django_content_type VALUES (5, 'sessions', 'session');
+INSERT INTO public.django_content_type VALUES (6, 'graphql_auth', 'userstatus');
+INSERT INTO public.django_content_type VALUES (7, 'enroll', 'user');
+INSERT INTO public.django_content_type VALUES (8, 'enroll', 'classtime');
+INSERT INTO public.django_content_type VALUES (9, 'enroll', 'course');
+INSERT INTO public.django_content_type VALUES (10, 'enroll', 'enrollment');
+INSERT INTO public.django_content_type VALUES (11, 'enroll', 'offer');
+INSERT INTO public.django_content_type VALUES (12, 'enroll', 'lecturer');
 
 
 --
 -- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.django_migrations (id, app, name, applied) FROM stdin;
-1	contenttypes	0001_initial	2021-04-12 20:24:45.424954+00
-2	contenttypes	0002_remove_content_type_name	2021-04-12 20:24:45.437087+00
-3	auth	0001_initial	2021-04-12 20:24:45.491914+00
-4	auth	0002_alter_permission_name_max_length	2021-04-12 20:24:45.50069+00
-5	auth	0003_alter_user_email_max_length	2021-04-12 20:24:45.509469+00
-6	auth	0004_alter_user_username_opts	2021-04-12 20:24:45.517674+00
-7	auth	0005_alter_user_last_login_null	2021-04-12 20:24:45.528257+00
-8	auth	0006_require_contenttypes_0002	2021-04-12 20:24:45.532471+00
-9	auth	0007_alter_validators_add_error_messages	2021-04-12 20:24:45.542023+00
-10	auth	0008_alter_user_username_max_length	2021-04-12 20:24:45.551789+00
-11	auth	0009_alter_user_last_name_max_length	2021-04-12 20:24:45.56279+00
-12	auth	0010_alter_group_name_max_length	2021-04-12 20:24:45.572047+00
-13	auth	0011_update_proxy_permissions	2021-04-12 20:24:45.58115+00
-14	auth	0012_alter_user_first_name_max_length	2021-04-12 20:24:45.590539+00
-15	enroll	0001_initial	2021-04-12 20:24:45.81687+00
-16	admin	0001_initial	2021-04-12 20:24:45.856452+00
-17	admin	0002_logentry_remove_auto_add	2021-04-12 20:24:45.870714+00
-18	admin	0003_logentry_add_action_flag_choices	2021-04-12 20:24:45.886282+00
-19	enroll	0002_auto_20210404_1400	2021-04-12 20:24:45.931331+00
-20	graphql_auth	0001_initial	2021-04-12 20:24:45.962699+00
-21	sessions	0001_initial	2021-04-12 20:24:45.981702+00
-\.
+INSERT INTO public.django_migrations VALUES (1, 'contenttypes', '0001_initial', '2021-04-12 20:24:45.424954+00');
+INSERT INTO public.django_migrations VALUES (2, 'contenttypes', '0002_remove_content_type_name', '2021-04-12 20:24:45.437087+00');
+INSERT INTO public.django_migrations VALUES (3, 'auth', '0001_initial', '2021-04-12 20:24:45.491914+00');
+INSERT INTO public.django_migrations VALUES (4, 'auth', '0002_alter_permission_name_max_length', '2021-04-12 20:24:45.50069+00');
+INSERT INTO public.django_migrations VALUES (5, 'auth', '0003_alter_user_email_max_length', '2021-04-12 20:24:45.509469+00');
+INSERT INTO public.django_migrations VALUES (6, 'auth', '0004_alter_user_username_opts', '2021-04-12 20:24:45.517674+00');
+INSERT INTO public.django_migrations VALUES (7, 'auth', '0005_alter_user_last_login_null', '2021-04-12 20:24:45.528257+00');
+INSERT INTO public.django_migrations VALUES (8, 'auth', '0006_require_contenttypes_0002', '2021-04-12 20:24:45.532471+00');
+INSERT INTO public.django_migrations VALUES (9, 'auth', '0007_alter_validators_add_error_messages', '2021-04-12 20:24:45.542023+00');
+INSERT INTO public.django_migrations VALUES (10, 'auth', '0008_alter_user_username_max_length', '2021-04-12 20:24:45.551789+00');
+INSERT INTO public.django_migrations VALUES (11, 'auth', '0009_alter_user_last_name_max_length', '2021-04-12 20:24:45.56279+00');
+INSERT INTO public.django_migrations VALUES (12, 'auth', '0010_alter_group_name_max_length', '2021-04-12 20:24:45.572047+00');
+INSERT INTO public.django_migrations VALUES (13, 'auth', '0011_update_proxy_permissions', '2021-04-12 20:24:45.58115+00');
+INSERT INTO public.django_migrations VALUES (14, 'auth', '0012_alter_user_first_name_max_length', '2021-04-12 20:24:45.590539+00');
+INSERT INTO public.django_migrations VALUES (15, 'enroll', '0001_initial', '2021-04-12 20:24:45.81687+00');
+INSERT INTO public.django_migrations VALUES (16, 'admin', '0001_initial', '2021-04-12 20:24:45.856452+00');
+INSERT INTO public.django_migrations VALUES (17, 'admin', '0002_logentry_remove_auto_add', '2021-04-12 20:24:45.870714+00');
+INSERT INTO public.django_migrations VALUES (18, 'admin', '0003_logentry_add_action_flag_choices', '2021-04-12 20:24:45.886282+00');
+INSERT INTO public.django_migrations VALUES (19, 'enroll', '0002_auto_20210404_1400', '2021-04-12 20:24:45.931331+00');
+INSERT INTO public.django_migrations VALUES (20, 'graphql_auth', '0001_initial', '2021-04-12 20:24:45.962699+00');
+INSERT INTO public.django_migrations VALUES (21, 'sessions', '0001_initial', '2021-04-12 20:24:45.981702+00');
 
 
 --
 -- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
-b7x0v6r2xj96o4tjy1vfdaj3575kzmvr	.eJxVjDsOwjAQBe_iGllZf2Kbkp4zRLvrNQmgWIqTCnF3iJQC2jcz76UG3NZx2Josw5TVWYE6_W6E_JB5B_mO861qrvO6TKR3RR-06WvN8rwc7t_BiG381rZI7D2TWEd9DmJAXMgcyGFyAD4Y6hLHEpGBHUNXLHqQZDtIxnhS7w_xLjfG:1lW3AN:cqonxhPQm5SAPXj78ly_o0UDDOJKOdIGjpfRpDTZG0s	2021-04-26 20:28:15.902629+00
-z7532gsfoeovoordauoihijgeo9c136a	.eJxVjEEOwiAQRe_C2hBKywy4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtw4jZJCSNWWUFlmJgQ6iijowWDLPRbogGcARtYeBJGSYCcBYn7bR4fwDsSDdb:1lWLf2:ZqnahZ62JKYW3_vLG1jD75Ewsjww7VpXls8P3MWpRUI	2021-04-27 16:13:08.502999+00
-\.
+INSERT INTO public.django_session VALUES ('b7x0v6r2xj96o4tjy1vfdaj3575kzmvr', '.eJxVjDsOwjAQBe_iGllZf2Kbkp4zRLvrNQmgWIqTCnF3iJQC2jcz76UG3NZx2Josw5TVWYE6_W6E_JB5B_mO861qrvO6TKR3RR-06WvN8rwc7t_BiG381rZI7D2TWEd9DmJAXMgcyGFyAD4Y6hLHEpGBHUNXLHqQZDtIxnhS7w_xLjfG:1lW3AN:cqonxhPQm5SAPXj78ly_o0UDDOJKOdIGjpfRpDTZG0s', '2021-04-26 20:28:15.902629+00');
+INSERT INTO public.django_session VALUES ('z7532gsfoeovoordauoihijgeo9c136a', '.eJxVjEEOwiAQRe_C2hBKywy4dO8ZCAODVA0kpV0Z765NutDtf-_9l_BhW4vfOi9-TuIsRnH63SjEB9cdpHuotyZjq-syk9wVedAury3x83K4fwcl9PKtw4jZJCSNWWUFlmJgQ6iijowWDLPRbogGcARtYeBJGSYCcBYn7bR4fwDsSDdb:1lWLf2:ZqnahZ62JKYW3_vLG1jD75Ewsjww7VpXls8P3MWpRUI', '2021-04-27 16:13:08.502999+00');
+INSERT INTO public.django_session VALUES ('u5gkuznosnai76ee778ox3197nkxvjj1', '.eJxVjDsOgzAQRO_iOrLAxp9NmZ4zWOvdJSaJQMJQRbl7QKJIypn3Zt4q4baWtFVZ0sjqqlp1-e0y0lOmA_ADp_usaZ7WZcz6UPRJq-5nltftdP8OCtayr9ENHgwgEgeUFsTmwINYsh1AjLAn6zvwJjgjTRcbjuzJsRWyxDmqzxf3kjhW:1lWPpQ:s-r4kyc-1_L8STRlKV8UsoL85wDTPYIue79TcvemtTc', '2021-04-27 20:40:08.53813+00');
 
 
 --
 -- Data for Name: enroll_classtime; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_classtime (id, day, frequency, start, duration_minutes, seats, course_id, lecturer_id) FROM stdin;
-1	MONDAY	2	08:00:00	90	10	1	1
-2	MONDAY	3	08:00:00	90	10	1	1
-3	TUESDAY	2	08:00:00	90	10	1	2
-4	TUESDAY	3	09:30:00	90	10	1	2
-5	WEDNESDAY	1	08:00:00	90	10	3	1
-6	WEDNESDAY	1	08:00:00	90	10	3	2
-8	THURSDAY	1	09:35:00	90	15	2	2
-7	WEDNESDAY	1	08:00:00	90	15	2	1
-\.
+INSERT INTO public.enroll_classtime VALUES (1, 'MONDAY', 2, '08:00:00', 90, 10, 1, 1);
+INSERT INTO public.enroll_classtime VALUES (2, 'MONDAY', 3, '08:00:00', 90, 10, 1, 1);
+INSERT INTO public.enroll_classtime VALUES (3, 'TUESDAY', 2, '08:00:00', 90, 10, 1, 2);
+INSERT INTO public.enroll_classtime VALUES (4, 'TUESDAY', 3, '09:30:00', 90, 10, 1, 2);
+INSERT INTO public.enroll_classtime VALUES (5, 'WEDNESDAY', 1, '08:00:00', 90, 10, 3, 1);
+INSERT INTO public.enroll_classtime VALUES (6, 'WEDNESDAY', 1, '08:00:00', 90, 10, 3, 2);
+INSERT INTO public.enroll_classtime VALUES (8, 'THURSDAY', 1, '09:35:00', 90, 15, 2, 2);
+INSERT INTO public.enroll_classtime VALUES (7, 'WEDNESDAY', 1, '08:00:00', 90, 15, 2, 1);
 
 
 --
 -- Data for Name: enroll_course; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_course (id, code, full_name) FROM stdin;
-1	APTO	Algorytmy dla Problemów Trudnych Obliczeniowo
-2	ASD	Algorytmy i Struktury Danych
-3	KI	Kompetencje Interpersonalne
-\.
+INSERT INTO public.enroll_course VALUES (1, 'APTO', 'Algorytmy dla Problemów Trudnych Obliczeniowo');
+INSERT INTO public.enroll_course VALUES (2, 'ASD', 'Algorytmy i Struktury Danych');
+INSERT INTO public.enroll_course VALUES (3, 'KI', 'Kompetencje Interpersonalne');
 
 
 --
 -- Data for Name: enroll_enrollment; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_enrollment (id, class_time_id, student_id) FROM stdin;
-2	2	4
-1	1	3
-3	3	5
-4	5	4
-5	5	3
-6	6	5
-7	7	4
-8	8	3
-9	8	5
-\.
+INSERT INTO public.enroll_enrollment VALUES (2, 2, 4);
+INSERT INTO public.enroll_enrollment VALUES (1, 1, 3);
+INSERT INTO public.enroll_enrollment VALUES (3, 3, 5);
+INSERT INTO public.enroll_enrollment VALUES (4, 5, 4);
+INSERT INTO public.enroll_enrollment VALUES (5, 5, 3);
+INSERT INTO public.enroll_enrollment VALUES (6, 6, 5);
+INSERT INTO public.enroll_enrollment VALUES (7, 7, 4);
+INSERT INTO public.enroll_enrollment VALUES (8, 8, 3);
+INSERT INTO public.enroll_enrollment VALUES (9, 8, 5);
 
 
 --
 -- Data for Name: enroll_lecturer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_lecturer (id, first_name, last_name, account_id) FROM stdin;
-1	Piotr	Faliszewski	2
-2	Marcin	Kurdziel	6
-\.
+INSERT INTO public.enroll_lecturer VALUES (1, 'Piotr', 'Faliszewski', 2);
+INSERT INTO public.enroll_lecturer VALUES (2, 'Marcin', 'Kurdziel', 6);
 
 
 --
 -- Data for Name: enroll_offer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_offer (id, comment, active, enrollment_id) FROM stdin;
-1	lorem ipsum	t	1
-2	dołożę czekoladę	t	2
-3	Dlaczego to pole jest required?	t	3
-4	plz	t	5
-5	thx in advance	t	9
-\.
+INSERT INTO public.enroll_offer VALUES (1, 'lorem ipsum', true, 1);
+INSERT INTO public.enroll_offer VALUES (2, 'dołożę czekoladę', true, 2);
+INSERT INTO public.enroll_offer VALUES (3, 'Dlaczego to pole jest required?', true, 3);
+INSERT INTO public.enroll_offer VALUES (4, 'plz', true, 5);
+INSERT INTO public.enroll_offer VALUES (5, 'thx in advance', true, 9);
 
 
 --
 -- Data for Name: enroll_offer_exchange_to; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_offer_exchange_to (id, offer_id, classtime_id) FROM stdin;
-2	1	2
-3	2	3
-4	3	4
-6	4	6
-7	5	7
-\.
+INSERT INTO public.enroll_offer_exchange_to VALUES (2, 1, 2);
+INSERT INTO public.enroll_offer_exchange_to VALUES (3, 2, 3);
+INSERT INTO public.enroll_offer_exchange_to VALUES (4, 3, 4);
+INSERT INTO public.enroll_offer_exchange_to VALUES (6, 4, 6);
+INSERT INTO public.enroll_offer_exchange_to VALUES (7, 5, 7);
 
 
 --
 -- Data for Name: enroll_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, user_type) FROM stdin;
-1	pbkdf2_sha256$260000$g4LevqvdiKOQamWJitflzG$KSRG9IvTdQohotV0TpAdRZ9V2CCRqqVygKMtv3iK8Rk=	2021-04-13 15:21:08.259915+00	t	admin			admin@gmail.com	t	t	2021-04-12 20:27:33.156063+00	1
-6	pbkdf2_sha256$260000$S1jHYIjLKVlQJBWlz73YXa$534HshnwLaKUqK+I9iLls3c1lgsSiNd6SxrNrhD1rvA=	2021-04-13 14:22:10+00	f	Marcin	Marcin	Kurdziel	marcin@kurdziel.pl	f	t	2021-04-13 14:21:34+00	3
-5	pbkdf2_sha256$260000$hTdEIATLMoNTlxvmavmwOY$oD6mNX46dN7I4OkslVqyjOH/xSsVUntwXFtrGa1bpok=	2021-04-13 14:21:02+00	f	Jan	Jan	Gargas	jan@gargas.pl	f	t	2021-04-13 14:20:53+00	2
-4	pbkdf2_sha256$260000$KE0AjVY8JyOtccmEpoWYH1$w4tBjh6mcfpeE1i2hNKsAM7fLnJC8qvigfGp+bmf6BE=	2021-04-13 14:20:11+00	f	Kacper	Kacper	Karoń	kacper@karon.pl	f	t	2021-04-13 14:20:04+00	2
-2	pbkdf2_sha256$260000$Q7QHOFuOtUVA8tIIvuaINT$q9fptseM3PQFN93MlrzPg6/RuFaWUTwQsmIs+xNDLJM=	2021-04-12 20:31:14+00	f	Piotr	Piotr	Faliszewski	piotr@faliszewski.pl	f	t	2021-04-12 20:30:44+00	3
-3	pbkdf2_sha256$260000$PxUI3keG41WEoLJVFzhnZb$KnIuQr/anM74ymdYW09D/qZ3eysCAU4QGe37vb8ag/c=	2021-04-13 16:13:08.499364+00	f	Stanisław	Stanisław	Denkowski	stanislaw@denkowski.pl	f	t	2021-04-12 20:33:17+00	2
-\.
+INSERT INTO public.enroll_user VALUES (6, 'pbkdf2_sha256$260000$S1jHYIjLKVlQJBWlz73YXa$534HshnwLaKUqK+I9iLls3c1lgsSiNd6SxrNrhD1rvA=', '2021-04-13 14:22:10+00', false, 'Marcin', 'Marcin', 'Kurdziel', 'marcin@kurdziel.pl', false, true, '2021-04-13 14:21:34+00', 3);
+INSERT INTO public.enroll_user VALUES (5, 'pbkdf2_sha256$260000$hTdEIATLMoNTlxvmavmwOY$oD6mNX46dN7I4OkslVqyjOH/xSsVUntwXFtrGa1bpok=', '2021-04-13 14:21:02+00', false, 'Jan', 'Jan', 'Gargas', 'jan@gargas.pl', false, true, '2021-04-13 14:20:53+00', 2);
+INSERT INTO public.enroll_user VALUES (4, 'pbkdf2_sha256$260000$KE0AjVY8JyOtccmEpoWYH1$w4tBjh6mcfpeE1i2hNKsAM7fLnJC8qvigfGp+bmf6BE=', '2021-04-13 14:20:11+00', false, 'Kacper', 'Kacper', 'Karoń', 'kacper@karon.pl', false, true, '2021-04-13 14:20:04+00', 2);
+INSERT INTO public.enroll_user VALUES (2, 'pbkdf2_sha256$260000$Q7QHOFuOtUVA8tIIvuaINT$q9fptseM3PQFN93MlrzPg6/RuFaWUTwQsmIs+xNDLJM=', '2021-04-12 20:31:14+00', false, 'Piotr', 'Piotr', 'Faliszewski', 'piotr@faliszewski.pl', false, true, '2021-04-12 20:30:44+00', 3);
+INSERT INTO public.enroll_user VALUES (3, 'pbkdf2_sha256$260000$PxUI3keG41WEoLJVFzhnZb$KnIuQr/anM74ymdYW09D/qZ3eysCAU4QGe37vb8ag/c=', '2021-04-13 16:13:08.499364+00', false, 'Stanisław', 'Stanisław', 'Denkowski', 'stanislaw@denkowski.pl', false, true, '2021-04-12 20:33:17+00', 2);
+INSERT INTO public.enroll_user VALUES (1, 'pbkdf2_sha256$260000$g4LevqvdiKOQamWJitflzG$KSRG9IvTdQohotV0TpAdRZ9V2CCRqqVygKMtv3iK8Rk=', '2021-04-13 20:40:08.53581+00', true, 'admin', '', '', 'admin@gmail.com', true, true, '2021-04-12 20:27:33.156063+00', 1);
 
 
 --
 -- Data for Name: enroll_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_user_groups (id, user_id, group_id) FROM stdin;
-\.
 
 
 --
 -- Data for Name: enroll_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.enroll_user_user_permissions (id, user_id, permission_id) FROM stdin;
-\.
 
 
 --
 -- Data for Name: graphql_auth_userstatus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.graphql_auth_userstatus (id, verified, archived, secondary_email, user_id) FROM stdin;
-1	f	f	\N	1
-2	f	f	\N	2
-3	f	f	\N	3
-4	f	f	\N	4
-5	f	f	\N	5
-6	f	f	\N	6
-\.
+INSERT INTO public.graphql_auth_userstatus VALUES (1, false, false, NULL, 1);
+INSERT INTO public.graphql_auth_userstatus VALUES (2, false, false, NULL, 2);
+INSERT INTO public.graphql_auth_userstatus VALUES (3, false, false, NULL, 3);
+INSERT INTO public.graphql_auth_userstatus VALUES (4, false, false, NULL, 4);
+INSERT INTO public.graphql_auth_userstatus VALUES (5, false, false, NULL, 5);
+INSERT INTO public.graphql_auth_userstatus VALUES (6, false, false, NULL, 6);
 
 
 --

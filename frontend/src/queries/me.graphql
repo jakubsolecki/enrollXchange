@@ -1,6 +1,7 @@
 query meQuery{
     me {
         username,
+        userType,
         verified
     }
 }

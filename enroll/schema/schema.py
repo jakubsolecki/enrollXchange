@@ -33,6 +33,7 @@ class Query(MeQuery, graphene.ObjectType):
             return ClassTime.objects.all()
         return ClassTime.objects.none()
 
+
 class CreateOfferWithAny(graphene.Mutation):
     offer = graphene.Field(OfferType)
 
@@ -79,7 +80,6 @@ class CreateOfferWithAny(graphene.Mutation):
 
         return CreateOffer(offer=offer)
 
-        
 
 class CreateOffer(graphene.Mutation):
     offer = graphene.Field(OfferType)
@@ -107,6 +107,7 @@ class CreateOffer(graphene.Mutation):
             )
         
         offer.exchange_to.add(class_time)
+
 
         return CreateOffer(offer=offer)
 
