@@ -51,14 +51,14 @@ class CreateOfferWithAny(graphene.Mutation):
 
     @staticmethod
     def mutate(
-        root, 
-        info, 
-        enrollment_id, 
-        comment="", 
-        lecturer_id=None, 
-        day=None, 
-        frequency=None, 
-        start=None, 
+        root,
+        info,
+        enrollment_id,
+        comment="",
+        lecturer_id=None,
+        day=None,
+        frequency=None,
+        start=None,
         duration=None
     ):
         _, enrollment_id_real = relay.Node.from_global_id(global_id=enrollment_id)
@@ -116,7 +116,7 @@ class CreateOffer(graphene.Mutation):
                 comment=comment,
                 active=True
             )
-        
+
         offer.exchange_to.add(class_time)
 
         return CreateOffer(offer=offer)
