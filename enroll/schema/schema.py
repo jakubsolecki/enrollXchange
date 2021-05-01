@@ -68,9 +68,50 @@ class CreateOffer(graphene.Mutation):
         return CreateOffer(offer=offer)
 
 
+class AcceptOffer(graphene.Mutation):
+    class Arguments:
+        offer_id = graphene.String()
+
+    offerAccepted = graphene.Boolean()
+
+    @staticmethod
+    def mutate(root, info, offer_id):
+        if info.context.user.is_authenticated:
+            user = info.context.user
+            _, real_offer_id = relay.Node.from_global_id(global_id=offer_id)
+            offer = Offer.objects.get(id=real_offer_id)
+
+            if offer.active:
+                user_enrollments = list(Enrollment.objects.filter(student=user))
+                user_class_times = [e.class_time for e in user_enrollments]
+                user_to_trade = list(filter(lambda x: x.course==offer.enrollment.class_time.course, user_class_times))
+
+                if set(user_to_trade)&set(offer.exchange_to.all())\
+                    and not (set(user_class_times)-set(user_to_trade))&set({offer.enrollment.class_time}):
+                    offer.active = False
+                    user_enrollment = list(filter(lambda x: x.class_time.course==offer.enrollment.class_time.course, user_enrollments))[0]
+                    offer.enrollment.student,user_enrollment.student = user_enrollment.student,offer.enrollment.student
+
+                    try:
+                        user_offer = Offer.objects.get(enrollment__student=user, enrollment__class_time__course=offer.enrollment.class_time.course)
+                        print("Klasa")
+                        user_offer.active = False
+                        user_offer.save(force_update=True)
+                    except Offer.DoesNotExist as e:
+                        print("DUpa")
+                        user_offer = None
+
+                    offer.enrollment.save()
+                    offer.save()
+                    user_enrollment.save()
+                    return AcceptOffer(offerAccepted=True)
+        return AcceptOffer(offerAccepted=False)
+
+
 class MyMutations(graphene.ObjectType):
     pass
     create_offer = CreateOffer.Field()
+    accept_offer = AcceptOffer.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=MyMutations)
