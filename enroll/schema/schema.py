@@ -46,10 +46,21 @@ class CreateOfferWithAny(graphene.Mutation):
         start = graphene.String()
         duration = graphene.Int()
 
-    # on front end you can specify only those fields you ask for, the rest is automatically set to 'any'
+    # on front end you can specify only those fields you ask for.
+    # The rest is automatically set to 'any'
 
     @staticmethod
-    def mutate(root, info, enrollment_id, comment="", lecturer_id=None, day=None, frequency=None, start=None, duration=None):
+    def mutate(
+        root, 
+        info, 
+        enrollment_id, 
+        comment="", 
+        lecturer_id=None, 
+        day=None, 
+        frequency=None, 
+        start=None, 
+        duration=None
+    ):
         _, enrollment_id_real = relay.Node.from_global_id(global_id=enrollment_id)
         enrollment = Enrollment.objects.get(id=enrollment_id_real)
 
@@ -65,7 +76,7 @@ class CreateOfferWithAny(graphene.Mutation):
             class_times = class_times.filter(start=start)
         if duration is not None:
             class_times = class_times.filter(duration_minutes=duration)
-        
+
         try:
             offer = Offer.objects.get(enrollment=enrollment)
         except Offer.DoesNotExist as e:
@@ -74,7 +85,7 @@ class CreateOfferWithAny(graphene.Mutation):
                 comment=comment,
                 active=True
             )
-        
+
         for class_time in class_times:
             offer.exchange_to.add(class_time)
 
@@ -107,7 +118,6 @@ class CreateOffer(graphene.Mutation):
             )
         
         offer.exchange_to.add(class_time)
-
 
         return CreateOffer(offer=offer)
 
