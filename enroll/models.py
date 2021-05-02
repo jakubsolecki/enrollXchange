@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 from enroll.fields import DayOfTheWeekField
 from enroll.validators import validate_by_user_type
 from enroll.types import UserType

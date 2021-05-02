@@ -4,7 +4,7 @@ query offersQuery(
   $lastName: String,
   $day: String,
 ) {
-	offers(
+	matchingOffers(
     active: true,
     enrollment_ClassTime_Course_FullName: $course,
     enrollment_ClassTime_Lecturer_FirstName: $firstName,

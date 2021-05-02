@@ -4,6 +4,7 @@ from graphene import relay
 import graphene
 
 from enroll.models import Course, Lecturer, ClassTime, Enrollment, Offer
+from django.db.models import Q
 
 
 class UserType(DjangoObjectType):
