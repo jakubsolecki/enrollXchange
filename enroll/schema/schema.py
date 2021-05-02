@@ -184,9 +184,10 @@ class AcceptOffer(graphene.Mutation):
                         and not (set(user_class_times) - set(user_to_trade)) & \
                         {offer.enrollment.class_time}:
                     offer.active = False
-                    user_enrollment = list(
-                        filter(lambda x: x.class_time.course == offer.enrollment.class_time.course,
-                               user_enrollments))[0]
+                    user_enrollment = list(filter(
+                        lambda x: x.class_time.course == offer.enrollment.class_time.course,
+                        user_enrollments
+                    ))[0]
                     offer.enrollment.student = user_enrollment.student
                     user_enrollment.student = offer.enrollment.student
                     try:
