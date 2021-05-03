@@ -1,6 +1,7 @@
 # enrollXchange
 ![Deploy](https://github.com/jakubsolecki/enrollXchange/actions/workflows/heroku_deploy.yml/badge.svg)
 ![Heroku](https://heroku-badge.herokuapp.com/?app=enrollxchange)
+[![codecov.io](https://codecov.io/github/jakubsolecki/enrollXchange/coverage.svg?branch=main)]
 
 This repo contains an Python/Django application for the [enrollXchange](https://enrollxchange.herokuapp.com/) website.
 

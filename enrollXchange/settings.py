@@ -93,6 +93,7 @@ LOGOUT_REDIRECT_URL = '/'
 WSGI_APPLICATION = 'enrollXchange.wsgi.application'
 
 # GraphQL
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 GRAPHENE = {
     'SCHEMA': 'enroll.schema.schema.schema'

@@ -57,6 +57,12 @@ jobs:
           run: python manage.py migrate
         - name: Run Test
           run: python manage.py test
+        - name: Generate Report
+          run: |
+            pip install coverage
+            coverage run ./manage.py test
+        - name: Upload Coverage to Codecov
+          uses: codecov/codecov-action@v1
 
   build:
     needs: test
