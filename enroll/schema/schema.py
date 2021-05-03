@@ -88,15 +88,15 @@ class CreateOfferWithAny(graphene.Mutation):
 
     @staticmethod
     def mutate(
-        root,
-        info,
-        enrollment_id,
-        comment="",
-        lecturer_id=None,
-        day=None,
-        frequency=None,
-        start=None,
-        duration=None
+            root,
+            info,
+            enrollment_id,
+            comment="",
+            lecturer_id=None,
+            day=None,
+            frequency=None,
+            start=None,
+            duration=None
     ):
         _, enrollment_id_real = relay.Node.from_global_id(global_id=enrollment_id)
         enrollment = Enrollment.objects.get(id=enrollment_id_real)
@@ -114,17 +114,32 @@ class CreateOfferWithAny(graphene.Mutation):
         if duration is not None:
             class_times = class_times.filter(duration_minutes=duration)
 
+        current_class_time = enrollment.class_time
+        is_active = True
+
+        acceptable_wanted_class_time = list(filter(
+            lambda x: x.enrollment_set.count() <= (current_class_time.enrollment_set.count() - 1)
+                      and x.lecturer == current_class_time.lecturer,
+            class_times
+        ))
+
+        # in destination class_time there are N-1 students (in current N) and both class_times have the same lecturer
+        if (len(acceptable_wanted_class_time) > 0):
+            enrollment.class_time = acceptable_wanted_class_time[0]
+            Enrollment.objects.filter(id=enrollment_id_real).update(class_time=acceptable_wanted_class_time[0])
+            is_active = False
+
         try:
             offer = Offer.objects.get(enrollment=enrollment)
         except Offer.DoesNotExist as e:
             offer = Offer.objects.create(
                 enrollment=enrollment,
                 comment=comment,
-                active=True
+                active=is_active
             )
-
-        for class_time in class_times:
-            offer.exchange_to.add(class_time)
+        if (is_active):
+            for class_time in class_times:
+                offer.exchange_to.add(class_time)
 
         return CreateOffer(offer=offer)
 
@@ -145,13 +160,23 @@ class CreateOffer(graphene.Mutation):
         _, class_time_id_real = relay.Node.from_global_id(global_id=class_time_id)
         class_time = ClassTime.objects.get(id=class_time_id_real)
 
+        current_class_time = enrollment.class_time
+        is_active = True
+
+        # in destination class_time there are N-1 students (in current N) and both class_times have the same lecturer
+        if (class_time.enrollment_set.count() <= (current_class_time.enrollment_set.count() - 1)
+                and class_time.lecturer == current_class_time.lecturer):
+            enrollment.class_time = class_time
+            Enrollment.objects.filter(id=enrollment_id_real).update(class_time=class_time)
+            is_active = False
+
         try:
             offer = Offer.objects.get(enrollment=enrollment)
         except Offer.DoesNotExist as e:
             offer = Offer.objects.create(
                 enrollment=enrollment,
                 comment=comment,
-                active=True
+                active=is_active
             )
 
         offer.exchange_to.add(class_time)
@@ -182,7 +207,7 @@ class AcceptOffer(graphene.Mutation):
 
                 if set(user_to_trade) & set(offer.exchange_to.all()) \
                         and not (set(user_class_times) - set(user_to_trade)) & \
-                        {offer.enrollment.class_time}:
+                                {offer.enrollment.class_time}:
                     offer.active = False
                     user_enrollment = list(filter(
                         lambda x: x.class_time.course == offer.enrollment.class_time.course,
