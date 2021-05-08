@@ -3,6 +3,7 @@ from graphene import relay
 from graphql_auth.schema import MeQuery
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db.models import Q, QuerySet
+from django.core.mail import send_mail
 
 from .types import CourseType, OfferType, ClassTimeType, EnrollmentType
 from ..models import Offer, ClassTime, Enrollment
@@ -230,8 +231,8 @@ class AcceptOffer(graphene.Mutation):
                             user_enrollments,
                         )
                     )[0]
-                    offer.enrollment.student = user_enrollment.student
-                    user_enrollment.student = offer.enrollment.student
+                    offer.enrollment.student, user_enrollment.student =\
+                        user_enrollment.student, offer.enrollment.student
                     try:
                         user_offer = Offer.objects.get(
                             enrollment__student=user,
@@ -242,9 +243,21 @@ class AcceptOffer(graphene.Mutation):
                     except Offer.DoesNotExist as e:
                         user_offer = None
 
+                    def mail_after(sub, msg, to, frm="donotreplay@enrollxchange.jp", silent=True):
+                        send_mail(sub, msg, frm, [to], fail_silently=silent)
+
+                    mail_after(sub="You've accepted the offer",
+                               msg=f"You've accepted {offer.enrollment.class_time} " +
+                                   f"for {user_enrollment.class_time}",
+                               to=offer.enrollment.student.email)
+                    mail_after(sub="Your offer's been accepted",
+                               msg=f"Your offer {offer.enrollment.class_time}'s been " +
+                                   f"accepted for {user_enrollment.class_time}",
+                               to=user_enrollment.student.email)
+
                     offer.enrollment.save()
-                    offer.save()
                     user_enrollment.save()
+
                     return AcceptOffer(offerAccepted=True)
         return AcceptOffer(offerAccepted=False)
 
