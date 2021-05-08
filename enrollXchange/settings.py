@@ -137,6 +137,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Email backend
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FAIL_SILENTLY = DEBUG or False
+DEFAULT_FROM_EMAIL = 'mtratnow@student.agh.edu.pl'
 if is_prod():
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')

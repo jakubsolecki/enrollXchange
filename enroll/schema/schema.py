@@ -3,10 +3,10 @@ from graphene import relay
 from graphql_auth.schema import MeQuery
 from graphene_django.filter import DjangoFilterConnectionField
 from django.db.models import Q, QuerySet
-from django.core.mail import send_mail
 
 from .types import CourseType, OfferType, ClassTimeType, EnrollmentType
 from ..models import Offer, ClassTime, Enrollment
+from ..mail import send_offer_accepted
 
 
 class CourseConnection(relay.Connection):
@@ -243,17 +243,12 @@ class AcceptOffer(graphene.Mutation):
                     except Offer.DoesNotExist as e:
                         user_offer = None
 
-                    def mail_after(sub, msg, to, frm="donotreplay@enrollxchange.jp", silent=True):
-                        send_mail(sub, msg, frm, [to], fail_silently=silent)
-
-                    mail_after(sub="You've accepted the offer",
-                               msg=f"You've accepted {offer.enrollment.class_time} " +
-                                   f"for {user_enrollment.class_time}",
-                               to=offer.enrollment.student.email)
-                    mail_after(sub="Your offer's been accepted",
-                               msg=f"Your offer {offer.enrollment.class_time}'s been " +
-                                   f"accepted for {user_enrollment.class_time}",
-                               to=user_enrollment.student.email)
+                    send_offer_accepted(
+                        offer_client_mail=user_enrollment.student.email,
+                        offer_owner_mail=offer.enrollment.student.email,
+                        client_class_time=user_enrollment.class_time,
+                        offer_class_time=offer.enrollment.class_time,
+                    )
 
                     offer.enrollment.save()
                     user_enrollment.save()
