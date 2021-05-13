@@ -18,6 +18,7 @@ class Query(MeQuery, graphene.ObjectType):
     courses = relay.ConnectionField(CourseConnection, resolver=CourseType.resolve_all)
     offers = DjangoFilterConnectionField(OfferType)
     class_times = DjangoFilterConnectionField(ClassTimeType)
+    my_class_times = DjangoFilterConnectionField(ClassTimeType)
     enrollments = DjangoFilterConnectionField(EnrollmentType)
     matchingOffers = DjangoFilterConnectionField(OfferType)
 
@@ -26,6 +27,14 @@ class Query(MeQuery, graphene.ObjectType):
         if info.context.user.is_authenticated:
             return Enrollment.objects.all()
         return Enrollment.objects.none()
+    
+    @staticmethod
+    def resolve_my_class_times(self, info, **kwargs):
+        user = info.context.user
+        if user.is_authenticated:
+            class_time_ids = Enrollment.objects.filter(student=user).values_list("class_time__id", flat=True)
+            return ClassTime.objects.filter(id__in=class_time_ids)            
+        return ClassTime.objects.none()
 
     @staticmethod
     def resolve_offers(self, info, **kwargs):
@@ -127,7 +136,7 @@ class CreateOfferWithAny(graphene.Mutation):
                 lambda x: x.enrollment_set.count()
                 <= (current_class_time.enrollment_set.count() - 1)
                 and x.lecturer == current_class_time.lecturer,
-                class_times,
+                class_times
             )
         )
 
