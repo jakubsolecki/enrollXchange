@@ -27,13 +27,14 @@ class Query(MeQuery, graphene.ObjectType):
         if info.context.user.is_authenticated:
             return Enrollment.objects.all()
         return Enrollment.objects.none()
-    
+
     @staticmethod
     def resolve_my_class_times(self, info, **kwargs):
         user = info.context.user
         if user.is_authenticated:
-            class_time_ids = Enrollment.objects.filter(student=user).values_list("class_time__id", flat=True)
-            return ClassTime.objects.filter(id__in=class_time_ids)            
+            class_time_ids = Enrollment.objects.filter(student=user)\
+                .values_list("class_time__id", flat=True)
+            return ClassTime.objects.filter(id__in=class_time_ids)
         return ClassTime.objects.none()
 
     @staticmethod
