@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from dataclasses import dataclass
 from pathlib import Path
 import os
 
@@ -113,6 +114,13 @@ DATABASES = {
 
     }
 }
+
+
+@dataclass(frozen=True)
+class ModelConstants:
+    NAME_LENGTH = 100
+    OFFER_COMMENT_LENGTH = 280
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

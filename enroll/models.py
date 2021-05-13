@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
+from enrollXchange.settings import ModelConstants
 from enroll.fields import DayOfTheWeekField
 from enroll.validators import validate_by_user_type
 from enroll.types import UserType
@@ -17,8 +17,8 @@ class User(AbstractUser):
 
 
 class Lecturer(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=ModelConstants.NAME_LENGTH)
+    last_name = models.CharField(max_length=ModelConstants.NAME_LENGTH)
     account = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -85,9 +85,24 @@ class Enrollment(models.Model):
         unique_together = ('student', 'class_time',)
 
 
-class Offer(models.Model):
+class OfferFields(models.Model):
     enrollment = models.ForeignKey(Enrollment, null=False, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=280)
+    comment = models.CharField(max_length=ModelConstants.OFFER_COMMENT_LENGTH)
     active = models.BooleanField(default=True, null=False)
     # ClassTimes for which author is willing to exchange
     exchange_to = models.ManyToManyField(ClassTime, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Offer(OfferFields):
+    def __str__(self):
+        return self.enrollment.student.__str__() + ' - ' + self.enrollment.class_time.__str__()
+
+
+class StudentRequest(OfferFields):
+    lecturer = models.ForeignKey(Lecturer, null=False, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.enrollment.student.__str__() + ' - ' + self.enrollment.class_time.__str__()
