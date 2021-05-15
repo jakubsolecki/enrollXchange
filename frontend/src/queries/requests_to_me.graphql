@@ -1,0 +1,22 @@
+# query protytpe - not tested
+query stduentRequests {
+    studentRequests(active: true) {
+        edges {
+            node {
+                id
+                lecturer
+                enrollment {
+                    classTime {
+                        day
+                        frequency
+                        start
+                        course
+                        lecturer
+                    }
+                }
+                comment
+                exchangeTo
+            }
+        }
+    }
+}
