@@ -95,4 +95,3 @@ class StudentRequestType(DjangoObjectType):
             "active",
             "lecturer__id"
         ]
-
