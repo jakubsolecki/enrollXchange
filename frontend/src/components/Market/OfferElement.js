@@ -1,14 +1,20 @@
 import React, {useState} from 'react';
 import {Button, Modal} from "react-bootstrap";
+import acceptMutation from '../../mutations/accept.graphql';
+import apollo_client from "../../util/apollo";
 
 const OfferElement = ({props}) => {
     const [showInfo, setShowInfo] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
-    const handleConfirmation = () => {
-        setShowConfirmation(false)
-        alert("DONE")
-    }
+    const handleAccept = (() => {
+        apollo_client.mutate({
+            mutation: acceptMutation, variables: {
+                offerId: props.id
+             }
+        }).then(res => console.log(res)).then(() => location.reload())
+        console.log(props.id);
+    })
 
     return (
         <div className="offset-2 col-8 offer-element d-flex justify-content-between align-items-center mt-4">
@@ -64,7 +70,7 @@ const OfferElement = ({props}) => {
                         </h5>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant='success' onClick={() => handleConfirmation()}>Zaakceptuj</Button>
+                        <Button variant='success' onClick={handleAccept}>Zaakceptuj</Button>
                         <Button variant='danger' onClick={() => setShowConfirmation(false)}>Odrzuć</Button>
                     </Modal.Footer>
                     </Modal>

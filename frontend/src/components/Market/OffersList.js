@@ -7,6 +7,7 @@ import {parseOffers} from "../../util/offer/offerParser";
 import {FiltersContext} from "../../context/Filters";
 
 
+
 const OffersList = () => {
     const [offers, setOffers] = useState([]);
     const { filters } = useContext(FiltersContext);
@@ -22,6 +23,8 @@ const OffersList = () => {
         }})
         .then(result => setOffers(parseOffers(result.data)));
     }, [filters])
+
+    offers.forEach(offer => console.log("Asdasd", offer.id))
 
     const htmlList = offers.map((offer) => <OfferElement key={offer.id} props={offer} />);
 
