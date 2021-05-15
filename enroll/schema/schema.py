@@ -5,7 +5,8 @@ from graphene_django.filter import DjangoFilterConnectionField
 from django.db.models import Q
 
 from .types import CourseType, OfferType, ClassTimeType, EnrollmentType, StudentRequestType
-from ..models import Offer, ClassTime, Enrollment, StudentRequest
+from ..models import Offer, ClassTime, Enrollment, StudentRequest, Lecturer
+from ..types import UserType
 from ..mail import send_offer_accepted
 
 
@@ -21,7 +22,7 @@ class Query(MeQuery, graphene.ObjectType):
     my_class_times = DjangoFilterConnectionField(ClassTimeType)
     enrollments = DjangoFilterConnectionField(EnrollmentType)
     matchingOffers = DjangoFilterConnectionField(OfferType)
-    studentRequests = DjangoFilterConnectionField(StudentRequestType)
+    student_requests = DjangoFilterConnectionField(StudentRequestType)
 
     @staticmethod
     def resolve_enrollments(self, info, **kwargs):
@@ -87,10 +88,11 @@ class Query(MeQuery, graphene.ObjectType):
         return ClassTime.objects.none()
 
     @staticmethod
-    def resolve_studentRequests(self, info, **kwargs):
+    def resolve_student_requests(self, info, **kwargs):
         user = info.context.user
-        if user.is_authenticated:
-            return StudentRequest.objects.filter(lecturer=user)
+        if user.is_authenticated and user.user_type == UserType.get_by_name('teacher'):
+            lecturer = Lecturer.objects.get(account=user)
+            return StudentRequest.objects.filter(lecturer=lecturer)
         return StudentRequest.objects.none()
 
 
