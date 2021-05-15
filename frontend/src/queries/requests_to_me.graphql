@@ -4,18 +4,45 @@ query stduentRequests {
         edges {
             node {
                 id
-                lecturer
+                lecturer {
+                  firstName
+                  lastName
+                }
                 enrollment {
                     classTime {
                         day
                         frequency
                         start
-                        course
-                        lecturer
+                        course {
+                          code
+                          fullName
+                        }
+                        lecturer {
+                          firstName
+                          lastName
+                        }
                     }
                 }
-                comment
-                exchangeTo
+                exchangeTo {
+                	edges {
+                    node {
+                      id
+                      day
+                      start
+                      durationMinutes
+                      course {
+                        id
+                        code
+                      }
+                      lecturer {
+                        id
+                        fullName
+                      }
+                    }
+          				}
+                }
+              active
+              comment
             }
         }
     }

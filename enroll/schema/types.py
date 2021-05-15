@@ -91,4 +91,8 @@ class StudentRequestType(DjangoObjectType):
         model = StudentRequest
         interfaces = (relay.Node,)
         fields = "__all__"
+        filter_fields = [
+            "active",
+            "lecturer__id"
+        ]
 

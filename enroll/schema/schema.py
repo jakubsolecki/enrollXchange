@@ -91,7 +91,7 @@ class Query(MeQuery, graphene.ObjectType):
         user = info.context.user
         if user.is_authenticated:
             return StudentRequest.objects.filter(lecturer=user)
-        return StudentRequest.objetcs.none()
+        return StudentRequest.objects.none()
 
 
 class CreateOfferWithAny(graphene.Mutation):
