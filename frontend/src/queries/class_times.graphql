@@ -1,0 +1,20 @@
+query classTimesQuery($course_FullName: String){
+  classTimes(course_FullName: $course_FullName) {
+    edges {
+      node {
+        id
+        day
+        start
+        lecturer {
+          id
+          fullName
+        }
+        course {
+          id
+          fullName
+          code
+        }
+      }
+    }
+  }
+}

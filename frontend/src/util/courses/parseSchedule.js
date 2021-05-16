@@ -33,6 +33,10 @@ export const parseSchedule = (node, user) => {
                 code: node.classTime.course.code,
                 fullName: node.classTime.course.fullName,
                 enrollmentId: node.id,
+                classTimeId: node.classTime.id,
+                start: node.classTime.start,
+                day: parseDay(node.classTime.day)
+
             }
         }))
         .filter(node => node.extendedProps.student === user.username)

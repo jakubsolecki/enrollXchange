@@ -14,7 +14,6 @@ const parseOffer = (node) => {
 };
 
 const parseOffers = (queryResult) => {
-    // TODO remove hardcoded query name ?
     return queryResult['matchingOffers']['edges'].map(offer => parseOffer(offer));
 };
 
@@ -35,7 +34,6 @@ const parseMyOffers = (queryResult, user) => {
     }
     const parseNode = (node) => {
         node = node['node'];
-        console.log(node)
         return {
             id: node['id'],
             title: node['enrollment']['classTime']['course']['code'],
