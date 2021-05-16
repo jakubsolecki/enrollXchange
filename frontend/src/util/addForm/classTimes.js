@@ -40,3 +40,7 @@ export const getLecturers = (classTimes) => {
     return output;
 }
 
+export const getStartTimes = (classTimes) => {
+    return classTimes.map(classTime => classTime.start)
+        .filter(onlyUnique)
+}

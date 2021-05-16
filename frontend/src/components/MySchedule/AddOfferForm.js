@@ -5,7 +5,7 @@ import {Button, Form, Col} from "react-bootstrap";
 import apollo_client from "../../util/apollo";
 import classTimesQuery from "../../queries/class_times.graphql";
 
-import {getDays, getLecturers, parseClassTimes} from "../../util/addForm/classTimes";
+import {getDays, getLecturers, getStartTimes, parseClassTimes} from "../../util/addForm/classTimes";
 
 const AddOfferForm = (props) => {
     const [pickedClasses, setPickedClasses] = useState([]);
@@ -31,6 +31,7 @@ const AddOfferForm = (props) => {
         setPickedClasses(classTimes
             .filter(time => !filters.day || time.day === filters.day)
             .filter(time => !filters.lecturer || time.lecturerId === filters.lecturer)
+            .filter(time => !filters.start || time.start === filters.start)
         )
     }, [classTimes, filters])
 
@@ -68,6 +69,11 @@ const AddOfferForm = (props) => {
                             <option value="">Dowolny</option>
                             {getLecturers(classTimes).map(lecturer => <option value={lecturer.id} key={lecturer.id}>{lecturer.name}</option>)}
                         </Form.Control>
+                        <Form.Label>Godzina</Form.Label>
+                        <Form.Control as="select" custom onChange={handleChange} id="start">
+                            <option value="">Dowolny</option>
+                            {getStartTimes(classTimes).map(start => <option value={start} key={start}>{start}</option>)}
+                        </Form.Control>
                     </div>
                     <div className="col-6">
                         <h3>Wybrane terminy</h3>
@@ -80,6 +86,7 @@ const AddOfferForm = (props) => {
                                 </li>)}
                         </ul>
                     </div>
+
                 </div>
 
             </Modal.Body>
