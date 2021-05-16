@@ -1,0 +1,19 @@
+mutation addOfferMutationWithAny(
+  $enrollmentId: String,
+  $day: String,
+  $lecturerId: String,
+  $comment: String
+  $start: String
+) {
+  createOfferWithAny(
+    enrollmentId: $enrollmentId,
+    day: $day,
+    lecturerId: $lecturerId,
+    comment: $comment,
+    start: $start
+  ) {
+    offer {
+      id
+    }
+  }
+}

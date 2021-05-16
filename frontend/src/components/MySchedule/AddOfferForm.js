@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Modal from 'react-bootstrap/Modal'
-import {Button, Form, Col} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import apollo_client from "../../util/apollo";
 import classTimesQuery from "../../queries/class_times.graphql";
+import offerMutation from '../../mutations/create_offer.graphql';
 
 import {getDays, getLecturers, getStartTimes, parseClassTimes} from "../../util/addForm/classTimes";
 
@@ -18,8 +19,7 @@ const AddOfferForm = (props) => {
     const enrollmentId = props.event.extendedProps.enrollmentId;
     const fullName = props.event.extendedProps.fullName;
     const classTimeId = props.event.extendedProps.classTimeId;
-
-    console.log(classTimes)
+    console.log(enrollmentId)
 
     useEffect(() => {
        apollo_client.query({query: classTimesQuery, variables: {course_FullName: fullName}})
@@ -40,6 +40,17 @@ const AddOfferForm = (props) => {
             ...prev,
             [event.target.id]: event.target.value
         }))
+    }
+
+    const handleSubmit = () => {
+        console.log(filters);
+        if (pickedClasses.length !== 0){
+            pickedClasses.forEach(pickedClass => console.log(pickedClass.id))
+        }
+        // apollo_client.mutate({mutation: offerMutation, variables: {
+        //
+        //     }})
+        props.onHide();
     }
 
     return (
@@ -64,16 +75,18 @@ const AddOfferForm = (props) => {
                             {getDays(classTimes).map(day => <option value={day.day} key={day.day}>{day.humanDay}</option>)}
                         </Form.Control>
 
-                        <Form.Label>Prowadzący</Form.Label>
-                        <Form.Control as="select" custom onChange={handleChange} id="lecturer">
-                            <option value="">Dowolny</option>
-                            {getLecturers(classTimes).map(lecturer => <option value={lecturer.id} key={lecturer.id}>{lecturer.name}</option>)}
-                        </Form.Control>
                         <Form.Label>Godzina</Form.Label>
                         <Form.Control as="select" custom onChange={handleChange} id="start">
                             <option value="">Dowolny</option>
                             {getStartTimes(classTimes).map(start => <option value={start} key={start}>{start}</option>)}
                         </Form.Control>
+
+                        <Form.Label>Prowadzący</Form.Label>
+                        <Form.Control as="select" custom onChange={handleChange} id="lecturer">
+                            <option value="">Dowolny</option>
+                            {getLecturers(classTimes).map(lecturer => <option value={lecturer.id} key={lecturer.id}>{lecturer.name}</option>)}
+                        </Form.Control>
+
                     </div>
                     <div className="col-6">
                         <h3>Wybrane terminy</h3>
@@ -91,7 +104,7 @@ const AddOfferForm = (props) => {
 
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" type="submit" onClick={props.onHide}>Złóż ofertę zamiany</Button>
+                <Button variant="danger" type="submit" onClick={handleSubmit}>Złóż ofertę zamiany</Button>
             </Modal.Footer>
         </Modal>
     )
