@@ -21,7 +21,7 @@ class Query(MeQuery, graphene.ObjectType):
     class_times = DjangoFilterConnectionField(ClassTimeType)
     my_class_times = DjangoFilterConnectionField(ClassTimeType)
     enrollments = DjangoFilterConnectionField(EnrollmentType)
-    matchingOffers = DjangoFilterConnectionField(OfferType)
+    matching_offers = DjangoFilterConnectionField(OfferType)
     student_requests = DjangoFilterConnectionField(StudentRequestType)
 
     @staticmethod
@@ -46,7 +46,7 @@ class Query(MeQuery, graphene.ObjectType):
         return Offer.objects.none()
 
     @staticmethod
-    def resolve_matchingOffers(self, info, **kwargs):
+    def resolve_matching_offers(self, info, **kwargs):
         if info.context.user.is_authenticated:
             user = info.context.user
             user_enrollments = list(Enrollment.objects.filter(student=user))
@@ -90,10 +90,14 @@ class Query(MeQuery, graphene.ObjectType):
     @staticmethod
     def resolve_student_requests(self, info, **kwargs):
         user = info.context.user
-        if user.is_authenticated and user.user_type == UserType.get_by_name('teacher'):
-            lecturer = Lecturer.objects.get(account=user)
-            return StudentRequest.objects.filter(lecturer=lecturer)
-        return StudentRequest.objects.none()
+        if not user.is_authenticated or user.user_type != UserType.get_by_name('teacher'):
+            return StudentRequest.objects.none()
+
+        lecturer = Lecturer.objects.filter(account=user).first()
+        if not lecturer:
+            return StudentRequest.objects.none()
+
+        return StudentRequest.objects.filter(lecturer=lecturer)
 
 
 class CreateOfferWithAny(graphene.Mutation):
