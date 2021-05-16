@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import {Button, Form} from "react-bootstrap";
 import apollo_client from "../../util/apollo";
 import classTimesQuery from "../../queries/class_times.graphql";
-import offerMutation from '../../mutations/create_offer.graphql';
+import addOfferWithAny from '../../mutations/add_offer_with_any.graphql';
 
 import {getDays, getLecturers, getStartTimes, parseClassTimes} from "../../util/addForm/classTimes";
 
@@ -19,7 +19,6 @@ const AddOfferForm = (props) => {
     const enrollmentId = props.event.extendedProps.enrollmentId;
     const fullName = props.event.extendedProps.fullName;
     const classTimeId = props.event.extendedProps.classTimeId;
-    console.log(enrollmentId)
 
     useEffect(() => {
        apollo_client.query({query: classTimesQuery, variables: {course_FullName: fullName}})
@@ -43,14 +42,22 @@ const AddOfferForm = (props) => {
     }
 
     const handleSubmit = () => {
-        console.log(filters);
         if (pickedClasses.length !== 0){
-            pickedClasses.forEach(pickedClass => console.log(pickedClass.id))
+            let variables = {
+                enrollmentId: enrollmentId
+            }
+            if (filters.day) variables['day'] = filters.day
+            if (filters.start) variables['start'] = filters.start
+            if (filters.lecturer) variables['lecturerId'] = filters.lecturer
+
+            console.log(variables);
+
+            apollo_client.mutate({mutation: addOfferWithAny, variables: variables})
+                .then(() => location.reload())
+            props.onHide();
         }
-        // apollo_client.mutate({mutation: offerMutation, variables: {
-        //
-        //     }})
-        props.onHide();
+
+
     }
 
     return (
