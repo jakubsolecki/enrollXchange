@@ -16,6 +16,7 @@ const AddOfferForm = (props) => {
         start: "",
         lecturer: "",
     })
+    const [comment, setComment] = useState("");
     const enrollmentId = props.event.extendedProps.enrollmentId;
     const fullName = props.event.extendedProps.fullName;
     const classTimeId = props.event.extendedProps.classTimeId;
@@ -41,10 +42,15 @@ const AddOfferForm = (props) => {
         }))
     }
 
+    const handleComment = (event) => {
+        setComment(event.target.value)
+    }
+
     const handleSubmit = () => {
         if (pickedClasses.length !== 0){
             let variables = {
-                enrollmentId: enrollmentId
+                enrollmentId: enrollmentId,
+                comment: comment,
             }
             if (filters.day) variables['day'] = filters.day
             if (filters.start) variables['start'] = filters.start
@@ -105,6 +111,15 @@ const AddOfferForm = (props) => {
                                     {classTime.start}
                                 </li>)}
                         </ul>
+                    </div>
+
+                </div>
+                <div className="row mt-4">
+                    <div className="col-12">
+                        <Form.Group controlId="AddOfferForm.commentTextArea">
+                            <Form.Label><span style={{color: 'black'}}>Komentarz</span></Form.Label>
+                            <Form.Control as="textarea" rows={2} value={comment} onChange={handleComment} />
+                        </Form.Group>
                     </div>
 
                 </div>
