@@ -19,8 +19,8 @@ from django.urls import path, include
 from graphene_django.views import GraphQLView
 
 urlpatterns = [
-    path('', include('frontend.urls')),
-    path('admin/', admin.site.urls),
-    url(r'^graph', GraphQLView.as_view(graphiql=True)),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path("", include("frontend.urls")),
+    path("admin/", admin.site.urls),
+    url(r"^graph", GraphQLView.as_view(graphiql=True)),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]

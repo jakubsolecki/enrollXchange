@@ -1,9 +1,9 @@
 class UserType:
     types = {
-        1: 'new_user',
-        2: 'student',
-        3: 'teacher',
-        4: 'moderator',
+        1: "new_user",
+        2: "student",
+        3: "teacher",
+        4: "moderator",
     }
 
     @classmethod

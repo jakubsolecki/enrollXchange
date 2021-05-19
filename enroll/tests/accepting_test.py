@@ -13,7 +13,7 @@ class AcceptOfferTest(ConnectionTestCase):
         self.query = """
         mutation acceptOffer($id: String){
             acceptOffer(offerId: $id) {
-                offerAccepted
+                accepted
             }
         }
         """
@@ -35,7 +35,7 @@ class AcceptOfferTest(ConnectionTestCase):
             variables={"id": get_global_id(types.OfferType, offer)},
         )
 
-        assert result == {"data": {"acceptOffer": {"offerAccepted": True}}}
+        assert result == {"data": {"acceptOffer": {"accepted": True}}}
 
         assert Offer.objects.get(id=offer.id).active is False
         assert (
