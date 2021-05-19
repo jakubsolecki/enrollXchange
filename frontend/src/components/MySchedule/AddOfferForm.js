@@ -110,7 +110,7 @@ const AddOfferForm = (props) => {
                         </div>
                         {request &&
                         <div className="alert alert-warning alert-dismissible fade show mt-2" role="alert">
-                            <strong>UWAGA</strong> Request trafi bezpośrednio do prowadzącego
+                            <strong>UWAGA!</strong> Request trafi bezpośrednio do prowadzącego
                         </div>}
 
                     </div>
