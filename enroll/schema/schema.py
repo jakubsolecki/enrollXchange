@@ -53,9 +53,9 @@ class Query(MeQuery, graphene.ObjectType):
     def resolve_my_class_times(self, info, **kwargs):
         user = info.context.user
         if user.is_authenticated:
-            class_time_ids = Enrollment.objects.filter(student=get_student(user)).values_list(
-                "class_time__id", flat=True
-            )
+            class_time_ids = Enrollment.objects.filter(
+                student=get_student(user)
+            ).values_list("class_time__id", flat=True)
             return ClassTime.objects.filter(id__in=class_time_ids)
         return ClassTime.objects.none()
 
@@ -69,7 +69,9 @@ class Query(MeQuery, graphene.ObjectType):
     def resolve_matching_offers(self, info, **kwargs):
         if info.context.user.is_authenticated:
             user = info.context.user
-            user_enrollments = list(Enrollment.objects.filter(student=get_student(user)))
+            user_enrollments = list(
+                Enrollment.objects.filter(student=get_student(user))
+            )
             user_class_times = [e.class_time for e in user_enrollments]
             class_time_fields = [
                 (c.day, c.frequency, c.start, c.end) for c in user_class_times
@@ -281,7 +283,6 @@ class MyMutations(graphene.ObjectType):
     accept_request = AcceptRequest.Field()
     create_offer_with_any = CreateOfferWithAny.Field()
     create_request = CreateRequest.Field()
-
 
 
 schema = graphene.Schema(query=Query, mutation=MyMutations)

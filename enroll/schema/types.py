@@ -3,7 +3,15 @@ from django.contrib.auth import get_user_model
 from graphene import relay
 import graphene
 
-from enroll.models import Course, Lecturer, ClassTime, Enrollment, Offer, StudentRequest, Student
+from enroll.models import (
+    Course,
+    Lecturer,
+    ClassTime,
+    Enrollment,
+    Offer,
+    StudentRequest,
+    Student,
+)
 
 
 class UserType(DjangoObjectType):
