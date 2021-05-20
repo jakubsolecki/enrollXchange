@@ -4,6 +4,7 @@ from graphene import relay
 from ..mail import send_offer_accepted, send_request_accepted
 from ..models import (
     Offer,
+    StudentRequest,
     Enrollment,
     Student,
     StudentRequest,
@@ -17,7 +18,9 @@ class Accepting:
 
     @staticmethod
     def times_conflicting(a, b):
-        return (a.start < b.end and a.end > b.start) or (b.start < a.end and b.end > a.start)
+        return (a.start < b.end and a.end > b.start) or (
+            b.start < a.end and b.end > a.start
+        )
 
     @staticmethod
     def conflicting(time, exchange_to):
@@ -30,6 +33,7 @@ class Accepting:
                 and Accepting.freq_conflicting(a.frequency, b.frequency)
                 and Accepting.times_conflicting(a, b)
             )
+
         return class_time_cmp(exchange_to.all()[0], time)
 
     @staticmethod
@@ -70,7 +74,9 @@ class Accepting:
 
     @staticmethod
     def test_request(request, student):
-        for time in list(map(lambda x: x.class_time, Enrollment.objects.filter(student=student))):
+        for time in list(
+            map(lambda x: x.class_time, Enrollment.objects.filter(student=student))
+        ):
             if Accepting.conflicting(time, request.exchange_to):
                 return False
         return True
@@ -86,12 +92,33 @@ class Accepting:
             user_offer.save(force_update=True)
         except Offer.DoesNotExist as ignored:
             pass
+        try:
+            user_request = StudentRequest.objects.get(
+                Enrollment__student=student,
+                Enrollment__class_time__coursee=course,
+            )
+            user_request.active = False
+            user_request.save(force_update=True)
+        except StudentRequest.DoesNotExist as ignored:
+            pass
         offers = list(Offer.objects.filter(enrollment__student=student))
         for offer in offers:
             for exchange in offer.exchange_to:
                 if Accepting.conflicting(exchange, class_time):
                     offer.remove(exchange)
                     offer.save()
+                    if len(offer.exchange_to) == 0:
+                        offer.active = False
+                        offer.save()
+        requests = list(StudentRequest.objects.filter(Enrollment__student=student))
+        for request in requests:
+            for exchange in request.exchange_to:
+                if Accepting.conflicting(exchange, class_time):
+                    request.remove(exchange)
+                    request.save()
+                    if len(request.exchange_to) == 0:
+                        request.active = False
+                        request.save()
 
 
 class AcceptOffer(Accepting, graphene.Mutation):
@@ -102,7 +129,9 @@ class AcceptOffer(Accepting, graphene.Mutation):
 
     @staticmethod
     def mutate(root, info, offer_id):
-        if not Accepting.test_user(user := info.context.user) or not Accepting.test_active(
+        if not Accepting.test_user(
+            user := info.context.user
+        ) or not Accepting.test_active(
             offer := Offer.objects.get(id=Accepting.get_id(offer_id))
         ):
             return AcceptOffer(accepted=False)
@@ -158,14 +187,14 @@ class AcceptRequest(Accepting, graphene.Mutation):
         if (
             not Accepting.test_user(user := info.context.user)
             or not Accepting.test_active(request)
-            or not request.enrollment.class_time.lecturer.account == user
+            or not request.lecturer.account == user
             or not Accepting.test_request(request, student)
         ):
             return AcceptOffer(accepted=False)
 
         request.active = False
         request.enrollment.class_time = request.exchange_to.first()
-        request.enrollment.class_time.save()
+        request.enrollment.save()
         request.save()
         Accepting.clean_offers(
             student, request.enrollment.class_time.course, request.enrollment.class_time
