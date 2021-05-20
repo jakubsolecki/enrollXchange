@@ -84,11 +84,7 @@ class ClassTime(models.Model):
 
     def __str__(self):
         return (
-            self.course.__str__()
-            + " | "
-            + self.day
-            + " "
-            + self.start.strftime("%H:%M")
+            self.course.__str__() + " | " + self.day + " " + self.start.strftime("%H:%M")
         )
 
 

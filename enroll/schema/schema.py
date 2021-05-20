@@ -69,9 +69,7 @@ class Query(MeQuery, graphene.ObjectType):
     def resolve_matching_offers(self, info, **kwargs):
         if info.context.user.is_authenticated:
             user = info.context.user
-            user_enrollments = list(
-                Enrollment.objects.filter(student=get_student(user))
-            )
+            user_enrollments = list(Enrollment.objects.filter(student=get_student(user)))
             user_class_times = [e.class_time for e in user_enrollments]
             class_time_fields = [
                 (c.day, c.frequency, c.start, c.end) for c in user_class_times
@@ -90,9 +88,7 @@ class Query(MeQuery, graphene.ObjectType):
             prefiltered_offers = Offer.objects.exclude(final_query)
 
             unwanted_offers_ids = []
-            for (
-                r
-            ) in prefiltered_offers:  # temporary(?) solution to filtering by property
+            for r in prefiltered_offers:  # temporary(?) solution to filtering by property
                 for e in class_time_fields:
                     if (
                         r.enrollment.class_time.frequency == e[1]
@@ -114,9 +110,7 @@ class Query(MeQuery, graphene.ObjectType):
     @staticmethod
     def resolve_student_requests(self, info, **kwargs):
         user = info.context.user
-        if not user.is_authenticated or user.user_type != UserType.get_by_name(
-            "teacher"
-        ):
+        if not user.is_authenticated or user.user_type != UserType.get_by_name("teacher"):
             return StudentRequest.objects.none()
 
         lecturer = Lecturer.objects.filter(account=user).first()
@@ -186,9 +180,9 @@ class CreateOfferWithAny(graphene.Mutation):
         _, enrollment_id_real = relay.Node.from_global_id(global_id=enrollment_id)
         enrollment = Enrollment.objects.get(id=enrollment_id_real)
 
-        class_times = ClassTime.objects\
-            .filter(course=enrollment.class_time.course)\
-            .exclude(id=enrollment.class_time.id)
+        class_times = ClassTime.objects.filter(
+            course=enrollment.class_time.course
+        ).exclude(id=enrollment.class_time.id)
         if lecturer_id is not None:
             _, lecturer_id_real = relay.Node.from_global_id(global_id=lecturer_id)
             class_times = class_times.filter(lecturer__id=lecturer_id_real)
@@ -262,9 +256,7 @@ class CreateOffer(graphene.Mutation):
             and class_time.lecturer == current_class_time.lecturer
         ):
             enrollment.class_time = class_time
-            Enrollment.objects.filter(id=enrollment_id_real).update(
-                class_time=class_time
-            )
+            Enrollment.objects.filter(id=enrollment_id_real).update(class_time=class_time)
             is_active = False
 
         try:

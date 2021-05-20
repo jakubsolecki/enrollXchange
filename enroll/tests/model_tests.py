@@ -146,13 +146,9 @@ class EnrollmentTestCase(UserTestCase):
             class_time=self.time,
         ).clean()
         with self.assertRaises(ValueError):
-            Enrollment.objects.create(
-                student=self.new_user, class_time=self.time
-            ).clean()
+            Enrollment.objects.create(student=self.new_user, class_time=self.time).clean()
         with self.assertRaises(ValueError):
-            Enrollment.objects.create(
-                student=self.teacher, class_time=self.time
-            ).clean()
+            Enrollment.objects.create(student=self.teacher, class_time=self.time).clean()
 
 
 class ClassTimeCase(TestCase):

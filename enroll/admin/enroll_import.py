@@ -62,9 +62,7 @@ class EnrollImporter:
             def parse_course(course_lines):
                 course = {"name": course_lines[0].rstrip(";")}
                 course_lines = course_lines[1:]
-                times = EnrollImporter.split_list(
-                    course_lines, lambda line: line == ";"
-                )
+                times = EnrollImporter.split_list(course_lines, lambda line: line == ";")
                 course["times"] = list(map(parse_time, times))
                 return course
 
@@ -96,9 +94,7 @@ class EnrollImporter:
                 start_datetime = datetime.datetime.combine(
                     datetime.date.today(), start_time
                 )
-                end_datetime = datetime.datetime.combine(
-                    datetime.date.today(), end_time
-                )
+                end_datetime = datetime.datetime.combine(datetime.date.today(), end_time)
                 diff = end_datetime - start_datetime
                 return int(diff.total_seconds() // 60)
 
