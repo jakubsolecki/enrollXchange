@@ -186,7 +186,7 @@ class CreateOfferWithAny(graphene.Mutation):
         _, enrollment_id_real = relay.Node.from_global_id(global_id=enrollment_id)
         enrollment = Enrollment.objects.get(id=enrollment_id_real)
 
-        class_times = ClassTime.objects.filter(course=enrollment.class_time.course)
+        class_times = ClassTime.objects.filter(course=enrollment.class_time.course).exclude(id=enrollment.class_time.id)
         if lecturer_id is not None:
             _, lecturer_id_real = relay.Node.from_global_id(global_id=lecturer_id)
             class_times = class_times.filter(lecturer__id=lecturer_id_real)
