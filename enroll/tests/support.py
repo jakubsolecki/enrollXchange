@@ -1,5 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
+
 from enroll.schema.schema import schema
+from enroll.models import UserType
 
 from graphene.test import Client
 from graphql_relay import to_global_id
@@ -14,6 +17,9 @@ class ConnectionTestCase(TestCase):
         super().setUp()
         self.client = Client(
             schema=schema,
+        )
+        self.user = get_user_model().objects.create(
+            username="test_user", user_type=UserType.get_by_name("student")
         )
 
     @staticmethod

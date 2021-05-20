@@ -2,6 +2,7 @@ import factory
 from factory.django import DjangoModelFactory
 
 from enroll.types import UserType
+from enroll.fields import DayOfTheWeek
 
 
 class UserFactory(DjangoModelFactory):
@@ -32,6 +33,8 @@ class CourseFactory(DjangoModelFactory):
     class Meta:
         model = "enroll.Course"
 
+    full_name = factory.Faker("sentence", nb_words=4)
+
 
 class ClassTimeFactory(DjangoModelFactory):
     class Meta:
@@ -39,6 +42,7 @@ class ClassTimeFactory(DjangoModelFactory):
 
     lecturer = factory.SubFactory(LecturerFactory)
     course = factory.SubFactory(CourseFactory)
+    day = factory.Iterator([tag.name for tag in DayOfTheWeek])
     frequency = factory.Iterator([1, 2, 3, 4])
     start = factory.Faker("time")
     duration_minutes = factory.Faker("pyint")
