@@ -61,8 +61,12 @@ class AcceptRequestTest(ConnectionTestCase):
         course = factory.CourseFactory()
 
         lecturer = factory.LecturerFactory()
-        first_class_time = factory.ClassTimeFactory(course=course, lecturer=lecturer)
-        user_class_time = factory.ClassTimeFactory(course=course, lecturer=lecturer)
+        first_class_time = factory.ClassTimeFactory(
+            course=course, lecturer=lecturer, day="Tuesday"
+        )
+        user_class_time = factory.ClassTimeFactory(
+            course=course, lecturer=lecturer, day="Monday"
+        )
         first_enrollment = factory.EnrollmentFactory(class_time=first_class_time)
         request = factory.StudentRequestFactory(
             enrollment=first_enrollment,
@@ -75,6 +79,5 @@ class AcceptRequestTest(ConnectionTestCase):
             user=lecturer.account,
             variables={"id": get_global_id(types.OfferType, request)},
         )
-        print(result)
 
         assert result == {"data": {"acceptRequest": {"accepted": True}}}
