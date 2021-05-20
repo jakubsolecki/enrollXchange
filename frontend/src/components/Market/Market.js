@@ -9,7 +9,7 @@ const Market = () => {
         <div className="container mt-4">
             <FiltersProvider>
                 <div className="row-cols-1 text-center">
-                    <h2>Filter</h2>
+                    <h2>Filtry</h2>
                 </div>
                 <div className="row-cols-1">
                     <div className="d-flex justify-content-center">

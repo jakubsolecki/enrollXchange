@@ -140,9 +140,9 @@ class CreateRequest(graphene.Mutation):
         enrollment = Enrollment.objects.get(id=enrollment_id_real)
 
         _, class_time_id_real = relay.Node.from_global_id(global_id=class_time_id)
-        class_time = Enrollment.objects.get(id=class_time_id_real)
+        class_time = ClassTime.objects.get(id=class_time_id_real)
 
-        lecturer = enrollment.lecturer
+        lecturer = enrollment.class_time.lecturer
 
         try:
             request = StudentRequest.objects.get(enrollment=enrollment)

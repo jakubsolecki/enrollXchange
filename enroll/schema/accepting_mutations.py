@@ -4,7 +4,6 @@ from graphene import relay
 from ..mail import send_offer_accepted, send_request_accepted
 from ..models import (
     Offer,
-    StudentRequest,
     Enrollment,
     Student,
     StudentRequest,

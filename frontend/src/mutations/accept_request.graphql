@@ -1,0 +1,7 @@
+mutation acceptMutation(
+  $offerId: String
+) {
+  acceptRequest(offerId: $offerId) {
+    accepted
+  }
+}

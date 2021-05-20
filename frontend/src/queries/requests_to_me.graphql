@@ -1,5 +1,5 @@
 # query protytpe - not tested
-query stduentRequests {
+query studentRequests {
     studentRequests(active: true) {
         edges {
             node {

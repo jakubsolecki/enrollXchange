@@ -28,7 +28,7 @@ const OffersList = () => {
     return (
         <>
             <div className="row-cols-1 text-center mt-4">
-                <h2>Offers</h2>
+                <h2>Oferty</h2>
             </div>
             <div className="row mt-3">
                 {htmlList}

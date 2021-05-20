@@ -1,13 +1,16 @@
-import React, {useState} from "react";
-import {Button} from "react-bootstrap";
-import {SlideDown} from "react-slidedown";
+import React, {useEffect, useState} from "react";
 import RequestElement from "./RequestElement";
+import studentRequests from '../../queries/requests_to_me.graphql'
+import apollo_client from "../../util/apollo";
+import {parseRequests} from "../../util/requests/requestsParser";
 
 const RequestsPanel = () => {
-    const request = {
-        title: "TOiZO Zajęcia jakieś tam nwm o co chodzi .-.",
-        description: "Panie doktorze niech Pan mnie przeniesie do innej grupy bo mam prace a w ogóle to nie chce mi sie tego uczyc i nwm o co w tym chodzi :("
-    };
+    const [requests, setRequests] = useState([])
+
+    useEffect(() => {
+        apollo_client.query({query: studentRequests})
+            .then(data => parseRequests(data)).then(data => setRequests(data))
+    }, [])
 
     return (
         <div className="container mt-4">
@@ -15,10 +18,7 @@ const RequestsPanel = () => {
                 <h2>Requesty</h2>
             </div>
             <div>
-                <RequestElement request={request} />
-                <RequestElement request={request} />
-                <RequestElement request={request} />
-                <RequestElement request={request}/>
+                {requests.map(request => <RequestElement key={request.id} request={request} /> )}
             </div>
         </div>
     )
