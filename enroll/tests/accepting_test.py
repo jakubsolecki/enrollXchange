@@ -1,10 +1,8 @@
-import datetime as dt
-from django.contrib.auth import get_user_model
 from enroll.schema import types
 
 import enroll.tests.factory as factory
 from enroll.tests.support import ConnectionTestCase, get_global_id
-from enroll.models import UserType, Lecturer, Enrollment, Offer, ClassTime, Student
+from enroll.models import Enrollment, Offer
 
 
 class AcceptOfferTest(ConnectionTestCase):
@@ -18,7 +16,7 @@ class AcceptOfferTest(ConnectionTestCase):
         }
         """
 
-    def accepts_offer_to_any(self):
+    def test_accepts_offer_to_any(self):
         course = factory.CourseFactory()
 
         first_class_time = factory.ClassTimeFactory(course=course)
@@ -46,3 +44,37 @@ class AcceptOfferTest(ConnectionTestCase):
             Enrollment.objects.get(id=offer.enrollment.id).student
             == user_enrollment.student
         )
+
+
+class AcceptRequestTest(ConnectionTestCase):
+    def setUp(self):
+        super().setUp()
+        self.query = """
+        mutation acceptRequest($id: String){
+            acceptRequest(offerId: $id) {
+                accepted
+            }
+        }
+        """
+
+    def test_accepts_request_to_any(self):
+        course = factory.CourseFactory()
+
+        lecturer = factory.LecturerFactory()
+        first_class_time = factory.ClassTimeFactory(course=course, lecturer=lecturer)
+        user_class_time = factory.ClassTimeFactory(course=course, lecturer=lecturer)
+        first_enrollment = factory.EnrollmentFactory(class_time=first_class_time)
+        request = factory.StudentRequestFactory(
+            enrollment=first_enrollment,
+            lecturer=lecturer,
+        )
+        request.exchange_to.set([user_class_time])
+
+        result = self.execute(
+            self.query,
+            user=lecturer.account,
+            variables={"id": get_global_id(types.OfferType, request)},
+        )
+        print(result)
+
+        assert result == {"data": {"acceptRequest": {"accepted": True}}}

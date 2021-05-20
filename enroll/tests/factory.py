@@ -10,6 +10,7 @@ class UserFactory(DjangoModelFactory):
 
     user_type = factory.Iterator([1, 2, 3, 4])
     username = factory.Sequence(lambda n: f"User #{n}")
+    email = factory.Faker("email")
 
 
 class StudentFactory(DjangoModelFactory):
@@ -61,7 +62,7 @@ class OfferFactory(DjangoModelFactory):
 
 class StudentRequestFactory(DjangoModelFactory):
     class Meta:
-        model = "enroll.Student"
+        model = "enroll.StudentRequest"
 
     enrollment = factory.SubFactory(EnrollmentFactory)
     lecturer = factory.SubFactory(LecturerFactory)

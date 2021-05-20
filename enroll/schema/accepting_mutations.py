@@ -4,38 +4,33 @@ from graphene import relay
 from ..mail import send_offer_accepted, send_request_accepted
 from ..models import (
     Offer,
-    ClassTime,
     Enrollment,
-    StudentRequest,
-    Lecturer,
     Student,
     StudentRequest,
 )
 
 
 class Accepting:
-    class Arguments:
-        offer_id = graphene.String()
-
-    accepted = graphene.Boolean()
-
     @staticmethod
     def freq_conflicting(a, b):
-        return bool({"every week", "other"} & {a.label, b.label}) or a.label == b.label
+        return bool({1, 4} & {a, b}) or a == b
 
     @staticmethod
     def times_conflicting(a, b):
-        return (a.start < b.end and a.end > b.start) or (
-            b.start < a.end and b.end > a.start
-        )
+        return (a.start < b.end and a.end > b.start) or (b.start < a.end and b.end > a.start)
 
     @staticmethod
-    def conflicting(a, b):
-        return bool(
-            a.day == b.day
-            and freq_conflicting(a.frequency, b.frequency)
-            and times_conflicting(a, b)
-        )
+    def conflicting(time, exchange_to):
+        if exchange_to.count() != 1:
+            return True
+
+        def class_time_cmp(a, b):
+            return bool(
+                a.day == b.day
+                and Accepting.freq_conflicting(a.frequency, b.frequency)
+                and Accepting.times_conflicting(a, b)
+            )
+        return class_time_cmp(exchange_to.all()[0], time)
 
     @staticmethod
     def user_has_class_time_to_trade(user_classes_to_trade, offer_exchange_to):
@@ -48,7 +43,7 @@ class Accepting:
     @staticmethod
     def user_has_collision(user_classes, user_classes_to_trade, offer_time):
         for user_class in set(user_classes) - set(user_classes_to_trade):
-            if conflicting(user_class, offer_time):
+            if Accepting.conflicting(user_class, offer_time):
                 return True
         return False
         # return bool((set(user_classes) - set(user_classes_to_trade)) & {offer_time})
@@ -67,16 +62,16 @@ class Accepting:
 
     @staticmethod
     def test_exchange(user_to_trade, user_class_times, offer):
-        return user_has_class_time_to_trade(
+        return Accepting.user_has_class_time_to_trade(
             user_to_trade, offer.exchange_to.all()
-        ) and not user_has_collision(
+        ) and not Accepting.user_has_collision(
             user_class_times, user_to_trade, offer.enrollment.class_time
         )
 
     @staticmethod
     def test_request(request, student):
-        for time in list(map(lambda x: x.class_time, Enrollment.Objects.filter(student))):
-            if conflicting(time, request.exchange_to):
+        for time in list(map(lambda x: x.class_time, Enrollment.objects.filter(student=student))):
+            if Accepting.conflicting(time, request.exchange_to):
                 return False
         return True
 
@@ -94,16 +89,21 @@ class Accepting:
         offers = list(Offer.objects.filter(enrollment__student=student))
         for offer in offers:
             for exchange in offer.exchange_to:
-                if conflicting(exchange, class_time):
+                if Accepting.conflicting(exchange, class_time):
                     offer.remove(exchange)
                     offer.save()
 
 
 class AcceptOffer(Accepting, graphene.Mutation):
+    class Arguments:
+        offer_id = graphene.String()
+
+    accepted = graphene.Boolean()
+
     @staticmethod
     def mutate(root, info, offer_id):
-        if not super.test_user(user := info.context.user) or not super.test_active(
-            offer := Offer.objects.get(id=super.get_id())
+        if not Accepting.test_user(user := info.context.user) or not Accepting.test_active(
+            offer := Offer.objects.get(id=Accepting.get_id(offer_id))
         ):
             return AcceptOffer(accepted=False)
         student = Student.objects.get(account=user)
@@ -116,7 +116,7 @@ class AcceptOffer(Accepting, graphene.Mutation):
                 user_class_times,
             )
         )
-        if not super.test_exchange(user_to_trade, user_class_times, offer):
+        if not Accepting.test_exchange(user_to_trade, user_class_times, offer):
             return AcceptOffer(accepted=False)
 
         offer.active = False
@@ -127,7 +127,7 @@ class AcceptOffer(Accepting, graphene.Mutation):
                 user_enrollments,
             )
         )
-        super.clean_offers(student, course, offer.enrollmnt.class_time)
+        Accepting.clean_offers(student, course, offer.enrollment.class_time)
         offer.enrollment.student, user_enrollment.student = (
             user_enrollment.student,
             offer.enrollment.student,
@@ -145,29 +145,35 @@ class AcceptOffer(Accepting, graphene.Mutation):
 
 
 class AcceptRequest(Accepting, graphene.Mutation):
+    class Arguments:
+        offer_id = graphene.String()
+
+    accepted = graphene.Boolean()
+
     @staticmethod
     def mutate(root, info, offer_id):
         request_id = offer_id
+        request = StudentRequest.objects.get(id=Accepting.get_id(request_id))
+        student = request.enrollment.student
         if (
-            not super.test_user(user := info.context.user)
-            or not super.test_active(
-                request := StudentRequest.objects.get(id=super.get_id())
-            )
-            or not request.enrollment.class_time.lecturer == user
-            or not super.test_request(request, student := request.enrollment.student)
+            not Accepting.test_user(user := info.context.user)
+            or not Accepting.test_active(request)
+            or not request.enrollment.class_time.lecturer.account == user
+            or not Accepting.test_request(request, student)
         ):
             return AcceptOffer(accepted=False)
+
         request.active = False
-        request.enrollment.class_time = request.exchange_to
+        request.enrollment.class_time = request.exchange_to.first()
         request.enrollment.class_time.save()
         request.save()
-        super.clean_offers(
+        Accepting.clean_offers(
             student, request.enrollment.class_time.course, request.enrollment.class_time
         )
         send_request_accepted(
-            student_mail=student.account.mail,
-            lecturer_mail=user.account.mail,
-            class_time=request.exchange_to,
+            student_mail=student.account.email,
+            lecturer_mail=user.email,
+            class_time=request.exchange_to.first(),
             former_class_time=request.enrollment.class_time,
             comment=request.comment,
             name=student,
