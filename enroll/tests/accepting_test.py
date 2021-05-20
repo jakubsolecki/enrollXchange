@@ -79,5 +79,5 @@ class AcceptRequestTest(ConnectionTestCase):
             user=lecturer.account,
             variables={"id": get_global_id(types.OfferType, request)},
         )
-
+        print(result)
         assert result == {"data": {"acceptRequest": {"accepted": True}}}

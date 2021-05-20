@@ -93,8 +93,8 @@ class Accepting:
             pass
         try:
             user_request = StudentRequest.objects.get(
-                Enrollment__student=student,
-                Enrollment__class_time__coursee=course,
+                enrollment__student=student,
+                enrollment__class_time__coursee=course,
             )
             user_request.active = False
             user_request.save(force_update=True)
@@ -109,7 +109,7 @@ class Accepting:
                     if len(offer.exchange_to) == 0:
                         offer.active = False
                         offer.save()
-        requests = list(StudentRequest.objects.filter(Enrollment__student=student))
+        requests = list(StudentRequest.objects.filter(enrollment__student=student))
         for request in requests:
             for exchange in request.exchange_to:
                 if Accepting.conflicting(exchange, class_time):
