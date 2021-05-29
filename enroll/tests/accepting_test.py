@@ -2,7 +2,7 @@ from enroll.schema import types
 
 import enroll.tests.factory as factory
 from enroll.tests.support import ConnectionTestCase, get_global_id
-from enroll.models import Enrollment, Offer
+from enroll.models import Enrollment, Offer, StudentRequest
 
 
 class AcceptOfferTest(ConnectionTestCase):
@@ -81,3 +81,34 @@ class AcceptRequestTest(ConnectionTestCase):
         )
 
         assert result == {"data": {"acceptRequest": {"accepted": True}}}
+
+    def test_accepts_different_lecturer(self):
+        course = factory.CourseFactory()
+        lecturer = factory.LecturerFactory()
+        accepting_lecturer = factory.LecturerFactory()
+
+        first_class_time = factory.ClassTimeFactory(
+            course=course, lecturer=lecturer, day="Monday"
+        )
+        user_class_time = factory.ClassTimeFactory(
+            course=course, lecturer=accepting_lecturer, day="Monday"
+        )
+        first_enrollment = factory.EnrollmentFactory(class_time=first_class_time)
+        request = factory.StudentRequestFactory(
+            enrollment=first_enrollment,
+            lecturer=accepting_lecturer
+        )
+        request.exchange_to.set([user_class_time])
+
+        result = self.execute(
+            self.query,
+            user=accepting_lecturer.account,
+            variables={"id": get_global_id(types.OfferType, request)},
+        )
+
+        assert result == {"data": {"acceptRequest": {"accepted": True}}}
+        self.assertRaises(
+            StudentRequest.DoesNotExist,
+            StudentRequest.objects.get,
+            **{'enrollment': first_enrollment, 'active': True}
+        )
