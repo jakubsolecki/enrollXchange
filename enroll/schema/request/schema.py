@@ -26,9 +26,6 @@ class CreateRequest(graphene.Mutation):
 
         lecturer = class_time.lecturer
 
-        # try:
-        #     request = StudentRequest.objects.get(enrollment=enrollment, active=True)
-        # except StudentRequest.DoesNotExist as e:
         request = StudentRequest.objects.create(
             enrollment=enrollment, comment=comment, active=True, lecturer=lecturer
         )
